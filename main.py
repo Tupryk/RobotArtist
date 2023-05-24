@@ -17,16 +17,20 @@ C.addFrame('box') \
 C.view()
 
 way0 = C.addFrame('way0') \
-    .setPosition([-.25,.1,.675])
+    .setPosition([-.25,.1,.675]) \
+    .setShape(ry.ST.marker, size=[.1])
 
 way1 = C.addFrame('way1') \
-    .setPosition([.25,-.1,.675])
+    .setPosition([.25,-.1,.675]) \
+    .setShape(ry.ST.marker, size=[.1])
 
 way2 = C.addFrame('way2') \
-    .setPosition([.25,.1,.675])
+    .setPosition([.25,.1,.675]) \
+    .setShape(ry.ST.marker, size=[.1])
 
 way3 = C.addFrame('way3') \
-    .setPosition([-.25,-.1,.675])
+    .setPosition([-.25,-.1,.675]) \
+    .setShape(ry.ST.marker, size=[.1])
 
 C.view()
 
