@@ -20,7 +20,7 @@ way0 = C.addFrame('way0', 'box')
 way1 = C.addFrame('way1', 'box')
 
 way0.setShape(ry.ST.marker, size=[.1])
-way0.setRelativePose('t(0 0 .1) d(90 0 0 1)')
+way0.setRelativePose('t(10 0 .1) d(90 0 0 1)')
 
 way1.setShape(ry.ST.marker, size=[.1])
 way1.setRelativePose('d(90 0 0 1)')
@@ -47,8 +47,6 @@ komo.view(False, "waypoints solution")
 
 komo.view_close()
 path = komo.getPath()
-print("Path: ")
-print(path)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
