@@ -1,15 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-import sys, os
-#sys.path.append(os.path.expanduser('~/git/rai-python/build'))
-#import libry as ry
 from robotic import ry
-import numpy as np
-import time
 
 
 ry.params_add({'physx/motorKp': 10000., 'physx/motorKd': 1000.})
@@ -19,7 +8,12 @@ C = ry.Config()
 C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 C.view(False)
 
-C.addFrame('box')     .setPosition([-.25,.1,.675])     .setShape(ry.ST.ssBox, size=[.05,.05,.05,.005])     .setColor([1,.5,0])     .setMass(.1)     .setContact(True)
+C.addFrame('box') \
+    .setPosition([-.25,.1,.675]) \
+    .setShape(ry.ST.ssBox, size=[.05,.05,.05,.005]) \
+    .setColor([1,.5,0]) \
+    .setMass(.1) \
+    .setContact(True)
 C.view()
 
 way0 = C.addFrame('way0', 'box')
@@ -43,13 +37,18 @@ komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
 komo.addObjective([1.], ry.FS.poseDiff, ['l_gripper', 'way0'], ry.OT.eq, [1e1]);
 komo.addObjective([2.], ry.FS.poseDiff, ['l_gripper', 'way1'], ry.OT.eq, [1e1]);
 
-ret = ry.NLP_Solver()     .setProblem(komo.nlp())     .setOptions( stopTolerance=1e-2, verbose=4 )     .solve()
+ret = ry.NLP_Solver() \
+    .setProblem(komo.nlp()) \
+    .setOptions( stopTolerance=1e-2, verbose=4 ) \
+    .solve()
 print(ret)
 
 komo.view(False, "waypoints solution")
 
 komo.view_close()
 path = komo.getPath()
+print("Path: ")
+print(path)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
