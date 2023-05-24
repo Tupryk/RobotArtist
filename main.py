@@ -16,26 +16,31 @@ C.addFrame('box') \
     .setContact(True)
 C.view()
 
-way0 = C.addFrame('way0', 'box')
-way1 = C.addFrame('way1', 'box')
+way0 = C.addFrame('way0') \
+    .setPosition([-.25,.1,.675])
 
-way0.setShape(ry.ST.marker, size=[.1])
-way0.setRelativePose('t(10 0 .1) d(90 0 0 1)')
+way1 = C.addFrame('way1') \
+    .setPosition([.25,-.1,.675])
 
-way1.setShape(ry.ST.marker, size=[.1])
-way1.setRelativePose('d(90 0 0 1)')
+way2 = C.addFrame('way2') \
+    .setPosition([.25,.1,.675])
+
+way3 = C.addFrame('way3') \
+    .setPosition([-.25,-.1,.675])
 
 C.view()
 
 # define a 2 waypoint problem in KOMO
 komo = ry.KOMO()
 komo.setConfig(C, True)
-komo.setTiming(2., 1, 5., 0)
+komo.setTiming(4., 2, 10., 0)
 komo.addControlObjective([], 0, 1e-0)
 komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
 komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
 komo.addObjective([1.], ry.FS.poseDiff, ['l_gripper', 'way0'], ry.OT.eq, [1e1]);
 komo.addObjective([2.], ry.FS.poseDiff, ['l_gripper', 'way1'], ry.OT.eq, [1e1]);
+komo.addObjective([3.], ry.FS.poseDiff, ['l_gripper', 'way2'], ry.OT.eq, [1e1]);
+komo.addObjective([4.], ry.FS.poseDiff, ['l_gripper', 'way3'], ry.OT.eq, [1e1]);
 
 ret = ry.NLP_Solver() \
     .setProblem(komo.nlp()) \
