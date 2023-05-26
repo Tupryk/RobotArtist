@@ -14,10 +14,10 @@ DRAWING_MAX_WIDTH = 0.7
 DRAWING_MAX_HEIGHT = 0.7
 
 # Get drawing line data
-sketch = np.array([
+sketch = [
     [ [-0.25, 1.0], [0.25, 1.0], [0.25, 0.675], [-0.25, 0.675], [-0.25, 1.0] ],
     [ [0.2, 0.8], [-0.2, 0.9] ]
-])
+]
 
 # Scale the drawing
 
@@ -30,7 +30,7 @@ for line in sketch:
 
     # Starting waypoint (Above initial line point)
     way = C.addFrame('way'+str(way_point_counter)) \
-        .setPosition([line[0, 0], LIFTED_Z, line[0, 1]]) \
+        .setPosition([line[0][0], LIFTED_Z, line[0][1]]) \
         .setShape(ry.ST.marker, size=[.1])
     
     way_point_counter += 1
@@ -44,7 +44,7 @@ for line in sketch:
 
     # End waypoint (Above ending line point)
     way = C.addFrame('way'+str(way_point_counter)) \
-        .setPosition([line[-1, 0], LIFTED_Z, line[-1, 1]]) \
+        .setPosition([line[-1][0], LIFTED_Z, line[-1][1]]) \
         .setShape(ry.ST.marker, size=[.1])
     
     way_point_counter += 1
