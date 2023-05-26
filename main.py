@@ -9,19 +9,23 @@ C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 C.view(False)
 
 way0 = C.addFrame('way0') \
-    .setPosition([-.25,.1,.0]) \
+    .setPosition([-.25,.1,1.]) \
+    .setRotatiton([0, 90, 0]) \
     .setShape(ry.ST.marker, size=[.1])
 
 way1 = C.addFrame('way1') \
     .setPosition([.25,.1,.675]) \
+        .setRotatiton([0, 90, 0]) \
     .setShape(ry.ST.marker, size=[.1])
 
 way2 = C.addFrame('way2') \
-    .setPosition([.25,.1,.0]) \
+    .setPosition([.25,.1,1.]) \
+        .setRotatiton([0, 90, 0]) \
     .setShape(ry.ST.marker, size=[.1])
 
 way3 = C.addFrame('way3') \
     .setPosition([-.25,.1,.675]) \
+        .setRotatiton([0, 90, 0]) \
     .setShape(ry.ST.marker, size=[.1])
 
 C.view()
@@ -29,7 +33,7 @@ C.view()
 # define a 2 waypoint problem in KOMO
 komo = ry.KOMO()
 komo.setConfig(C, True)
-komo.setTiming(2., 1, 5., 0)
+komo.setTiming(4., 1, 5., 0)
 komo.addControlObjective([], 0, 1e-0)
 komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
 komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
@@ -48,27 +52,17 @@ komo.view(False, "waypoints solution")
 
 komo.view_close()
 path = komo.getPath()
+print("Path: ")
+print(path)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
 
-bot.gripperOpen(ry._left)
-while not bot.gripperDone(ry._left):
-    bot.sync(C, .1)
-
-bot.move(path, [2., 3.])
+bot.move(path, [1., 2., 3., 4.])
 while bot.getTimeToEnd()>0:
     bot.sync(C, .1)
 
-bot.gripperClose(ry._left)
-while not bot.gripperDone(ry._left):
-    bot.sync(C, .1)
-
 bot.home(C)
-
-bot.gripperOpen(ry._left)
-while not bot.gripperDone(ry._left):
-    bot.sync(C, .1)
 
 del bot
 del C
