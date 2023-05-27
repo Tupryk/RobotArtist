@@ -1,4 +1,5 @@
 import numpy as np
+from loader import load_sketch
 from robotic import ry
 
 ry.params_add({'physx/motorKp': 10000., 'physx/motorKd': 1000.})
@@ -10,17 +11,11 @@ C.view(False)
 
 WHITE_BOARD_Z = 0.1
 LIFTED_Z = WHITE_BOARD_Z - 0.05
-DRAWING_MAX_WIDTH = 0.7
-DRAWING_MAX_HEIGHT = 0.7
+DRAWING_MAX_WIDTH = 0.5
+DRAWING_MAX_HEIGHT = 0.5
 
 # Get drawing line data
-sketch = [
-    [ [-0.25, 1.0], [0.25, 1.0], [0.25, 0.675], [-0.25, 0.675], [-0.25, 1.0] ],
-    [ [0.2, 0.8], [-0.2, 0.9] ]
-]
-
-# Scale the drawing
-
+sketch = load_sketch("square&line.json", max_dims=[DRAWING_MAX_WIDTH, DRAWING_MAX_HEIGHT])
 
 ### Create waypoints ###
 waypoint_count = ( len(sketch) * 2 ) + sum([len(line) for line in sketch])
@@ -55,7 +50,7 @@ C.view()
 
 komo = ry.KOMO()
 komo.setConfig(C, True)
-komo.setTiming(4., 1, 5., 0)
+komo.setTiming(float(waypoint_count), 1, 5., 0)
 komo.addControlObjective([], 0, 1e-0)
 komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
 komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
@@ -73,8 +68,6 @@ komo.view(False, "waypoints solution")
 
 komo.view_close()
 path = komo.getPath()
-print("Path: ")
-print(path)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
