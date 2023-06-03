@@ -1,4 +1,3 @@
-import numpy as np
 from loader import load_sketch
 from robotic import ry
 
