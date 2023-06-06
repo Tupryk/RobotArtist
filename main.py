@@ -1,4 +1,5 @@
-from loader import load_sketch
+from loader import load_sketch, segment_line
+import numpy as np
 from robotic import ry
 
 ry.params_add({'physx/motorKp': 10000., 'physx/motorKd': 1000.})
@@ -47,15 +48,25 @@ del way_point_counter
     
 C.view()
 
+# This should depend on line length
+points_in_line = 20
+phase_duration = 5.
+
+points = segment_line(np.array([0, 0]), np.array([1, 1]), points_in_line)
+
 komo = ry.KOMO()
 komo.setConfig(C, True)
-komo.setTiming(float(waypoint_count), 1, 5., 0)
-komo.addControlObjective([], 0, 1e-0)
-komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
-komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
+# Phase count
+# Slices per phase
+# Phase duration (in seconds)
+# Degree of smothness
+komo.setTiming(1, points_in_line, phase_duration, 2)
+komo.addControlObjective([], 2, 1e-0)
+# komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
+# komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
 
-for i in range(waypoint_count):
-    komo.addObjective([float(i+1)], ry.FS.poseDiff, ['l_gripper', 'way'+str(i)], ry.OT.eq, [1e1]);
+for i in range(20):
+    komo.addObjective([float(i)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], points[i]);
 
 ret = ry.NLP_Solver() \
     .setProblem(komo.nlp()) \
@@ -63,7 +74,7 @@ ret = ry.NLP_Solver() \
     .solve()
 print(ret)
 
-komo.view(False, "waypoints solution")
+komo.view(False, "Solution")
 
 komo.view_close()
 path = komo.getPath()
@@ -72,10 +83,7 @@ bot = ry.BotOp(C, False)
 bot.home(C)
 
 bot.move(path, [float(i+1) for i in range(waypoint_count)])
-while bot.getTimeToEnd()>0:
+while bot.getTimeToEnd() > 0:
     bot.sync(C, .1)
 
 bot.home(C)
-
-del bot
-del C
