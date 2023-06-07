@@ -2,7 +2,7 @@ import numpy as np
 from robotic import ry
 from loader import segment_line
 
-def line_solver(point1, point2, ry_config, resolution=0.01, duration_per_meter=10.):
+def line_solver(point1, point2, ry_config, resolution=0.01, duration_per_meter=10., whiteboard_z=0.05):
 
     vector = point2 - point1
     length = np.linalg.norm(vector)
@@ -11,6 +11,9 @@ def line_solver(point1, point2, ry_config, resolution=0.01, duration_per_meter=1
     phase_duration = length/duration_per_meter
 
     points = segment_line(point1, point2, points_in_line)
+
+    for i, _ in enumerate(points):
+        points[i] = np.array([points[i][0], whiteboard_z, points[i][1]])
 
     komo = ry.KOMO()
     komo.setConfig(ry_config, True)
@@ -27,3 +30,5 @@ def line_solver(point1, point2, ry_config, resolution=0.01, duration_per_meter=1
         .setProblem(komo.nlp()) \
         .setOptions( stopTolerance=1e-2, verbose=0 ) \
         .solve()
+    
+    return ret
