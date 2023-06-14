@@ -4,6 +4,7 @@ from loader import segment_line
 
 def line_solver(point1, point2, ry_config, resolution=0.01, speed=1., whiteboard_z=0.5):
 
+    # TODO Fix: throws a 0 division error because of short lines (current fix: augment the resolution).
     vector = point2 - point1
     length = np.linalg.norm(vector)
     
@@ -20,12 +21,12 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=1., whiteboard
 
     komo.setTiming(1, points_in_line, phase_duration, 2)
     komo.addControlObjective([], 2, 1)
-    komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
-    komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
+    komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
+    komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
 
-    for i in range(points_in_line):
-        komo.addObjective([float(i+1)/points_in_line], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], points[i]);
+    for i, point in enumerate(points):
+        komo.addObjective([float(i+1)/points_in_line], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
 
     ret = ry.NLP_Solver() \
         .setProblem(komo.nlp()) \
@@ -50,6 +51,7 @@ def pen_picker(ry_config):
     komo.setConfig(ry_config, True)
     komo.setTiming(2., 1, 5., 0)
     komo.addControlObjective([], 0, 1e-0)
+    komo.addObjective([], ry.FS.scalarProductYX, ["l_gripper", "pen"], ry.OT.eq, [1e1], [1.])
     # komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
     # komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
 

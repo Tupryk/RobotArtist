@@ -25,41 +25,57 @@ grasp_solver = pen_picker(C)
 # Get drawing line data
 sketch = load_sketch("square&line.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
 
-line_solvers = []
-for line in sketch:
+LIFT_SPACE = 0.05
+WHITE_BOARD_Z = 0.4
+
+for j, line in enumerate(sketch):
+
     for i in range(len(line)-1):
-        line_solvers.append(line_solver(np.array(line[i]), np.array(line[i+1]), C, whiteboard_z=0.3))
+
+        C.addFrame("Marker"+str(j*(len(sketch)+1))+str(i)) \
+            .setPosition([line[i][0], WHITE_BOARD_Z, line[i][1]]) \
+            .setShape(ry.ST.sphere, size=[.05, .005]) \
+            .setColor([np.abs(line[i][0])*255, WHITE_BOARD_Z, np.abs(line[i][0])*255])
+
+    C.addFrame("Marker"+str(j*(len(sketch)+1))+str(len(line)+1)) \
+            .setPosition([line[-1][0], WHITE_BOARD_Z, line[-1][1]]) \
+            .setShape(ry.ST.sphere, size=[.05, .005]) \
+            .setColor([np.abs(line[i][0])*255, WHITE_BOARD_Z, np.abs(line[i][0])*255])
 
 
 bot = ry.BotOp(C, False)
 bot.home(C)
 
 # Grasp pen
-"""
-path = grasp_solver.getPath()
+grasp = False
+if grasp:
+    path = grasp_solver.getPath()
 
-bot.gripperOpen(ry._left)
-while not bot.gripperDone(ry._left):
-    bot.sync(C, .1)
+    bot.gripperOpen(ry._left)
+    while not bot.gripperDone(ry._left):
+        bot.sync(C, .1)
 
-bot.move(path, [2., 3.])
-while bot.getTimeToEnd() > 0:
-    bot.sync(C, .1)
+    bot.move(path, [2., 3.])
+    while bot.getTimeToEnd() > 0:
+        bot.sync(C, .1)
 
-bot.gripperClose(ry._left)
-while not bot.gripperDone(ry._left):
-    bot.sync(C, .1)
-"""
+    bot.gripperClose(ry._left)
+    while not bot.gripperDone(ry._left):
+        bot.sync(C, .1)
 
 bot.home(C)
 
 # Draw
-for k in line_solvers:
+for j, line in enumerate(sketch):
 
-    path = k.getPath()
+    for i in range(len(line)-1):
 
-    bot.move(path, [1.])
-    while bot.getTimeToEnd() > 0:
-        bot.sync(C, .1)
+        komo = line_solver(np.array(line[i]), np.array(line[i+1]), C, whiteboard_z=WHITE_BOARD_Z)
+
+        path = komo.getPath()
+
+        bot.move(path, [1.])
+        while bot.getTimeToEnd() > 0:
+            bot.sync(C, .1)
 
 bot.home(C)
