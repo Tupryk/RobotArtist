@@ -66,7 +66,17 @@ if grasp:
 bot.home(C)
 
 # Draw
+last_point = None
 for j, line in enumerate(sketch):
+
+    if last_point:
+        komo = line_solver(np.array(last_point), np.array(line[0]), C, whiteboard_z=WHITE_BOARD_Z-LIFT_SPACE)
+
+        path = komo.getPath()
+
+        bot.move(path, [1.])
+        while bot.getTimeToEnd() > 0:
+            bot.sync(C, .1)
 
     for i in range(len(line)-1):
 
@@ -77,5 +87,7 @@ for j, line in enumerate(sketch):
         bot.move(path, [1.])
         while bot.getTimeToEnd() > 0:
             bot.sync(C, .1)
+
+    last_point = line[-1]
 
 bot.home(C)
