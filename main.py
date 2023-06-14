@@ -1,5 +1,5 @@
-from loader import load_sketch, segment_line
-from line_solver import line_solver
+from loader import load_sketch
+from solvers import line_solver, pen_picker
 import numpy as np
 from robotic import ry
 
@@ -8,50 +8,57 @@ ry.params_print()
 
 C = ry.Config()
 C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
-C.view(False)
 
-WHITE_BOARD_Z = 0.1
-LIFTED_Z = WHITE_BOARD_Z - 0.05
-DRAWING_MAX_WIDTH = 0.5
-DRAWING_MAX_HEIGHT = 0.5
+# Define pen to be grasped
+C.addFrame("pen") \
+    .setPosition([-0.25, .1, .675]) \
+    .setShape(ry.ST.ssBox, size=[.02, .15, .02, .005]) \
+    .setColor([1., .5, 0]) \
+    .setMass(.1) \
+    .setContact(True)
+
+# TODO Get pen position (Right now we just know the simulated exact pen possition)
+
+# Solve grasping
+grasp_solver = pen_picker(C)
 
 # Get drawing line data
-sketch = load_sketch("output.json", max_dims=[DRAWING_MAX_WIDTH, DRAWING_MAX_HEIGHT])
+sketch = load_sketch("square&line.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
 
-### Create waypoints ###
-waypoint_count = ( len(sketch) * 2 ) + sum([len(line) for line in sketch])
-
-komos = []
-
+line_solvers = []
 for line in sketch:
-
-    """
-    # Starting waypoint (Above initial line point)
-    way = C.addFrame('way'+str(way_point_counter)) \
-        .setPosition([line[0][0], LIFTED_Z, line[0][1]]) \
-        .setShape(ry.ST.marker, size=[.1])
-    """
     for i in range(len(line)-1):
-        komos.append(line_solver(line[i], line[i+1], C))
+        line_solvers.append(line_solver(np.array(line[i]), np.array(line[i+1]), C, whiteboard_z=0.3))
 
-    """
-    # End waypoint (Above ending line point)
-    way = C.addFrame('way'+str(way_point_counter)) \
-        .setPosition([line[-1][0], LIFTED_Z, line[-1][1]]) \
-        .setShape(ry.ST.marker, size=[.1])
-    """
-    
-    
-C.view()
 
 bot = ry.BotOp(C, False)
 bot.home(C)
 
-for k in komos:
+# Grasp pen
+"""
+path = grasp_solver.getPath()
+
+bot.gripperOpen(ry._left)
+while not bot.gripperDone(ry._left):
+    bot.sync(C, .1)
+
+bot.move(path, [2., 3.])
+while bot.getTimeToEnd() > 0:
+    bot.sync(C, .1)
+
+bot.gripperClose(ry._left)
+while not bot.gripperDone(ry._left):
+    bot.sync(C, .1)
+"""
+
+bot.home(C)
+
+# Draw
+for k in line_solvers:
 
     path = k.getPath()
 
-    bot.move(path, [float(i) for i in range(waypoint_count)])
+    bot.move(path, [1.])
     while bot.getTimeToEnd() > 0:
         bot.sync(C, .1)
 
