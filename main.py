@@ -1,5 +1,5 @@
-from loader import load_sketch
-from solvers import line_solver, pen_picker
+from utils.loader import load_sketch
+from utils.solvers import line_solver, pen_picker
 import numpy as np
 from robotic import ry
 

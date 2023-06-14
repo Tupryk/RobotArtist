@@ -8,7 +8,7 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('../shape_predictor_68_face_landmarks.dat')
 cap = cv2.VideoCapture(0)
 
-face_lines = json.load(open("face_lines.json"))
+face_lines = json.load(open("data/face_lines.json"))
 
 while True:
     
@@ -32,8 +32,8 @@ while True:
                 real_line.append([landmarks.part(line[i+1]).x, landmarks.part(line[i+1]).y])
             real_lines.append(real_line)
 
-        json.dump(real_lines, open('output.json', 'w'))
-        cv2.imwrite("output.jpg", image)
+        json.dump(real_lines, open('data/output.json', 'w'))
+        cv2.imwrite("data/output.jpg", image)
         break
 
     if cv2.waitKey(10) == 27:
