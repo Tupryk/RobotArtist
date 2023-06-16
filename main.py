@@ -23,24 +23,21 @@ C.addFrame("pen") \
 grasp_solver = pen_picker(C)
 
 # Get drawing line data
-sketch = load_sketch("square&line.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
+sketch = load_sketch("data/square&line.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
 
 LIFT_SPACE = 0.05
 WHITE_BOARD_Z = 0.4
 
+total_points = 0
 for j, line in enumerate(sketch):
+    for point in line:
 
-    for i in range(len(line)-1):
-
-        C.addFrame("Marker"+str(j*(len(sketch)+1))+str(i)) \
-            .setPosition([line[i][0], WHITE_BOARD_Z, line[i][1]]) \
+        C.addFrame("Marker"+str(total_points)) \
+            .setPosition([point[0], WHITE_BOARD_Z, point[1]]) \
             .setShape(ry.ST.sphere, size=[.05, .005]) \
-            .setColor([np.abs(line[i][0])*255, WHITE_BOARD_Z, np.abs(line[i][0])*255])
-
-    C.addFrame("Marker"+str(j*(len(sketch)+1))+str(len(line)+1)) \
-            .setPosition([line[-1][0], WHITE_BOARD_Z, line[-1][1]]) \
-            .setShape(ry.ST.sphere, size=[.05, .005]) \
-            .setColor([np.abs(line[i][0])*255, WHITE_BOARD_Z, np.abs(line[i][0])*255])
+            .setColor([np.abs(point[0])*255, WHITE_BOARD_Z, np.abs(point[0])*255])
+        
+        total_points += 1
 
 
 bot = ry.BotOp(C, False)
