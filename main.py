@@ -4,6 +4,7 @@ from modules.utils import sketch_plotter
 import numpy as np
 from robotic import ry
 
+
 # TODO get WHITE_BOARD_Z from depth camera
 LIFT_SPACE = 0.05
 WHITE_BOARD_Z = 0.4

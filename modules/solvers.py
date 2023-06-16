@@ -1,6 +1,7 @@
 import numpy as np
 from robotic import ry
-from utils.loader import segment_line
+from modules.loader import segment_line
+
 
 def line_solver(point1, point2, ry_config, resolution=0.01, speed=1., whiteboard_z=0.5):
 
@@ -39,7 +40,7 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=1., whiteboard
 
 def pen_picker(ry_config):
     # TODO Get pen position (Right now we just know the simulated exact pen possition)
-    
+
     way0 = ry_config.addFrame("way0", "pen")
     way1 = ry_config.addFrame("way1", "pen")
 
