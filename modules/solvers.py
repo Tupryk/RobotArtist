@@ -38,6 +38,8 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=1., whiteboard
     return komo
 
 def pen_picker(ry_config):
+    # TODO Get pen position (Right now we just know the simulated exact pen possition)
+    
     way0 = ry_config.addFrame("way0", "pen")
     way1 = ry_config.addFrame("way1", "pen")
 

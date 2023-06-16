@@ -1,7 +1,12 @@
-from utils.loader import load_sketch
-from utils.solvers import line_solver, pen_picker
+from modules.loader import load_sketch
+from modules.solvers import line_solver, pen_picker
+from modules.utils import sketch_plotter
 import numpy as np
 from robotic import ry
+
+# TODO get WHITE_BOARD_Z from depth camera
+LIFT_SPACE = 0.05
+WHITE_BOARD_Z = 0.4
 
 ry.params_add({'physx/motorKp': 10000., 'physx/motorKd': 1000.})
 ry.params_print()
@@ -9,7 +14,6 @@ ry.params_print()
 C = ry.Config()
 C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 
-# Define pen to be grasped
 C.addFrame("pen") \
     .setPosition([-0.25, .1, .675]) \
     .setShape(ry.ST.ssBox, size=[.02, .15, .02, .005]) \
@@ -17,33 +21,15 @@ C.addFrame("pen") \
     .setMass(.1) \
     .setContact(True)
 
-# TODO Get pen position (Right now we just know the simulated exact pen possition)
-
-# Solve grasping
-grasp_solver = pen_picker(C)
-
-# Get drawing line data
 sketch = load_sketch("data/square&line.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
-
-LIFT_SPACE = 0.05
-WHITE_BOARD_Z = 0.4
-
-total_points = 0
-for j, line in enumerate(sketch):
-    for point in line:
-
-        C.addFrame("Marker"+str(total_points)) \
-            .setPosition([point[0], WHITE_BOARD_Z, point[1]]) \
-            .setShape(ry.ST.sphere, size=[.05, .005]) \
-            .setColor([np.abs(point[0])*255, WHITE_BOARD_Z, np.abs(point[0])*255])
-        
-        total_points += 1
-
+C = sketch_plotter(sketch, C, WHITE_BOARD_Z)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
 
 # Grasp pen
+grasp_solver = pen_picker(C)
+
 grasp = False
 if grasp:
     path = grasp_solver.getPath()
@@ -62,10 +48,11 @@ if grasp:
 
 bot.home(C)
 
-# Draw
+# Draw sketch
 last_point = None
 for j, line in enumerate(sketch):
 
+    # Move back after finishing a line
     if last_point:
         komo = line_solver(np.array(last_point), np.array(line[0]), C, whiteboard_z=WHITE_BOARD_Z-LIFT_SPACE)
 
