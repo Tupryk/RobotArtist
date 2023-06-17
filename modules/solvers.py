@@ -27,7 +27,7 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=1., whiteboard
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
 
     for i, point in enumerate(points):
-        komo.addObjective([float(i+1)/points_in_line], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
+        komo.addObjective([float(i+1)/len(points)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
 
     ret = ry.NLP_Solver() \
         .setProblem(komo.nlp()) \
