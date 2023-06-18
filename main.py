@@ -23,7 +23,7 @@ C.addFrame("pen") \
     .setContact(True)
 
 sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
-C = sketch_plotter(sketch, C, WHITE_BOARD_Z, fill=.01)
+C = sketch_plotter(sketch, C, WHITE_BOARD_Z)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
