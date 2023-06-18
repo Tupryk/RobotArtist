@@ -26,12 +26,6 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboa
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
 
     for i, point in enumerate(points):
-
-        ry_config.addFrame("Marker"+str(np.random.randint(1000000000000000000))) \
-                .setPosition([point[0], whiteboard_z, point[1]]) \
-                .setShape(ry.ST.sphere, size=[.05, .005]) \
-                .setColor([np.abs(point[0])*255, whiteboard_z, np.abs(point[1])*255])
-        
         komo.addObjective([float(i+1)/len(points)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
 
     ret = ry.NLP_Solver() \
