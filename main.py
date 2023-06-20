@@ -55,26 +55,6 @@ if draw:
     last_point = None
     for j, line in enumerate(sketch):
 
-        # Move back after finishing a line
-        if last_point:
-            komo = line_solver(np.array(last_point), np.array(line[0]), C, whiteboard_z=WHITE_BOARD_Z-LIFT_SPACE)
-
-            path = komo.getPath()
-
-            bot.move(path, [1.])
-            while bot.getTimeToEnd() > 0:
-                bot.sync(C, .1)
-
-        for i in range(len(line)-1):
-
-            komo = line_solver(np.array(line[i]), np.array(line[i+1]), C, whiteboard_z=WHITE_BOARD_Z)
-
-            path = komo.getPath()
-
-            bot.move(path, [1.])
-            while bot.getTimeToEnd() > 0:
-                bot.sync(C, .1)
-
-        last_point = line[-1]
+        line_solver(line, C)
 
     bot.home(C)

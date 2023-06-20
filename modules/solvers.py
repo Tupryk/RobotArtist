@@ -37,19 +37,21 @@ def two_point_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whi
     # komo.view_play()
     return komo
 
-def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.5):
+def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.4):
 
     komo = ry.KOMO()
     komo.setConfig(ry_config, True)
 
-    komo.setTiming(len(waypoints), 10, 1, 2)
-    komo.addControlObjective([], 2, 1)
-    komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
-    komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
-    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
+    komo.setTiming(len(waypoints), 3, 1., 2)
+    komo.addControlObjective([], 0, 1e-2)
+    #komo.addControlObjective([], 1, 1)
+    komo.addControlObjective([], 2, 1e1)
+    #komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
+    #komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [1e0], [1, 0, 0])
 
     for i, point in enumerate(waypoints):
-        komo.addObjective([i], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
+        komo.addObjective([i], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e0], [-.2, point[0]+.3, point[1]])
 
     ret = ry.NLP_Solver() \
         .setProblem(komo.nlp()) \
@@ -57,7 +59,9 @@ def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=
         .solve()
     
     print(ret)
-    komo.view_play()
+    while komo.view_play(True):
+        print('none')
+
     return komo
 
 def pen_picker(ry_config):
