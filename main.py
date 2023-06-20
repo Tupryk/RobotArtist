@@ -17,7 +17,7 @@ C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 
 C.addFrame("pen") \
     .setPosition([-0.25, .1, .69]) \
-    .setShape(ry.ST.ssBox, size=[.02, .02, .15, .005]) \
+    .setShape(ry.ST.ssBox, size=[.02, .15, .02, .005]) \
     .setColor([1., .5, 0]) \
     .setMass(.1) \
     .setContact(True)
@@ -31,7 +31,7 @@ bot.home(C)
 # Grasp pen
 grasp_solver = pen_picker(C)
 
-grasp = False
+grasp = True
 if grasp:
     path = grasp_solver.getPath()
 
@@ -47,32 +47,34 @@ if grasp:
     while not bot.gripperDone(ry._left):
         bot.sync(C, .1)
 
-bot.home(C)
+    bot.home(C)
 
 # Draw sketch
-last_point = None
-for j, line in enumerate(sketch):
+draw = False
+if draw:
+    last_point = None
+    for j, line in enumerate(sketch):
 
-    # Move back after finishing a line
-    if last_point:
-        komo = line_solver(np.array(last_point), np.array(line[0]), C, whiteboard_z=WHITE_BOARD_Z-LIFT_SPACE)
+        # Move back after finishing a line
+        if last_point:
+            komo = line_solver(np.array(last_point), np.array(line[0]), C, whiteboard_z=WHITE_BOARD_Z-LIFT_SPACE)
 
-        path = komo.getPath()
+            path = komo.getPath()
 
-        bot.move(path, [1.])
-        while bot.getTimeToEnd() > 0:
-            bot.sync(C, .1)
+            bot.move(path, [1.])
+            while bot.getTimeToEnd() > 0:
+                bot.sync(C, .1)
 
-    for i in range(len(line)-1):
+        for i in range(len(line)-1):
 
-        komo = line_solver(np.array(line[i]), np.array(line[i+1]), C, whiteboard_z=WHITE_BOARD_Z)
+            komo = line_solver(np.array(line[i]), np.array(line[i+1]), C, whiteboard_z=WHITE_BOARD_Z)
 
-        path = komo.getPath()
+            path = komo.getPath()
 
-        bot.move(path, [1.])
-        while bot.getTimeToEnd() > 0:
-            bot.sync(C, .1)
+            bot.move(path, [1.])
+            while bot.getTimeToEnd() > 0:
+                bot.sync(C, .1)
 
-    last_point = line[-1]
+        last_point = line[-1]
 
-bot.home(C)
+    bot.home(C)

@@ -23,8 +23,7 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboa
     komo.addControlObjective([], 2, 1)
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
-    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
-    komo.addObjective([], ry.FS.vectorX, ["l_gripper"], ry.OT.eq, [1e1], [1, 0, 0])
+    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.OT.eq, [1e1], [0, 1, 0])
 
     for i, point in enumerate(points):
         komo.addObjective([float(i+1)/len(points)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
