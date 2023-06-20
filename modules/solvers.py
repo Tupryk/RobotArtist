@@ -1,6 +1,6 @@
 import numpy as np
 from robotic import ry
-from modules.loader import segment_line
+from modules.utils import segment_line
 
 
 def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.5):
