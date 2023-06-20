@@ -25,11 +25,11 @@ while True:
         for line in face_lines:
             real_line = []
 
-            for i in range(len(line)-1):
-                cv2.line(image, (landmarks.part(line[i]).x, landmarks.part(line[i]).y),
+            for i in range(len(line)):
+                if i < len(line)-1:
+                    cv2.line(image, (landmarks.part(line[i]).x, landmarks.part(line[i]).y),
                         (landmarks.part(line[i+1]).x, landmarks.part(line[i+1]).y), (0, 0, 255), 1)
                 real_line.append([landmarks.part(line[i]).x, -landmarks.part(line[i]).y])
-                real_line.append([landmarks.part(line[i+1]).x, -landmarks.part(line[i+1]).y])
             real_lines.append(real_line)
 
         json.dump(real_lines, open('data/output.json', 'w'))
