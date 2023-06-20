@@ -16,8 +16,8 @@ C = ry.Config()
 C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 
 C.addFrame("pen") \
-    .setPosition([-0.25, .1, .675]) \
-    .setShape(ry.ST.ssBox, size=[.02, .15, .02, .005]) \
+    .setPosition([-0.25, .1, .69]) \
+    .setShape(ry.ST.ssBox, size=[.02, .02, .15, .005]) \
     .setColor([1., .5, 0]) \
     .setMass(.1) \
     .setContact(True)

@@ -24,6 +24,7 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboa
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
+    komo.addObjective([], ry.FS.vectorX, ["l_gripper"], ry.OT.eq, [1e1], [1, 0, 0])
 
     for i, point in enumerate(points):
         komo.addObjective([float(i+1)/len(points)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
@@ -53,7 +54,7 @@ def pen_picker(ry_config):
     komo.setConfig(ry_config, True)
     komo.setTiming(2., 1, 5., 0)
     komo.addControlObjective([], 0, 1e-0)
-    komo.addObjective([], ry.FS.scalarProductYX, ["l_gripper", "pen"], ry.OT.eq, [1e1], [1.])
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, 0, -1])
     # komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
     # komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
 
