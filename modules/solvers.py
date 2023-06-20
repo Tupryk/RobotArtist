@@ -3,7 +3,7 @@ from robotic import ry
 from modules.utils import segment_line
 
 
-def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.5):
+def two_point_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.5):
     
     vector = point2 - point1
     length = np.linalg.norm(vector)
@@ -23,7 +23,7 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboa
     komo.addControlObjective([], 2, 1)
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
-    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
 
     for i, point in enumerate(points):
         komo.addObjective([float(i+1)/len(points)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
@@ -35,6 +35,29 @@ def line_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboa
     
     print(ret)
     # komo.view_play()
+    return komo
+
+def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.5):
+
+    komo = ry.KOMO()
+    komo.setConfig(ry_config, True)
+
+    komo.setTiming(len(waypoints), 10, 1, 2)
+    komo.addControlObjective([], 2, 1)
+    komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
+    komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
+
+    for i, point in enumerate(waypoints):
+        komo.addObjective([i], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
+
+    ret = ry.NLP_Solver() \
+        .setProblem(komo.nlp()) \
+        .setOptions(stopTolerance=1e-2, verbose=0) \
+        .solve()
+    
+    print(ret)
+    komo.view_play()
     return komo
 
 def pen_picker(ry_config):
