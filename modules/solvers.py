@@ -1,43 +1,7 @@
-import numpy as np
 from robotic import ry
-from modules.utils import segment_line
 
 
-def two_point_solver(point1, point2, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.5):
-    
-    vector = point2 - point1
-    length = np.linalg.norm(vector)
-    
-    points_in_line = int(length/resolution)
-    phase_duration = length/speed
-
-    points = segment_line(point1, point2, points_in_line)
-
-    for i, _ in enumerate(points):
-        points[i] = [points[i][0], whiteboard_z, points[i][1]]
-
-    komo = ry.KOMO()
-    komo.setConfig(ry_config, True)
-
-    komo.setTiming(1, len(points), phase_duration, 2)
-    komo.addControlObjective([], 2, 1)
-    komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
-    komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
-    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 0])
-
-    for i, point in enumerate(points):
-        komo.addObjective([float(i+1)/len(points)], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e1], point)
-
-    ret = ry.NLP_Solver() \
-        .setProblem(komo.nlp()) \
-        .setOptions(stopTolerance=1e-2, verbose=0) \
-        .solve()
-    
-    print(ret)
-    # komo.view_play()
-    return komo
-
-def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=0.4):
+def line_solver(waypoints, ry_config, debug=False):
 
     komo = ry.KOMO()
     komo.setConfig(ry_config, True)
@@ -51,7 +15,7 @@ def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [1e0], [1, 0, 0])
 
     for i, point in enumerate(waypoints):
-        komo.addObjective([i], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e0], [-.2, point[0]+.3, point[1]])
+        komo.addObjective([i], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e0], point)
 
     ret = ry.NLP_Solver() \
         .setProblem(komo.nlp()) \
@@ -59,10 +23,12 @@ def line_solver(waypoints, ry_config, resolution=0.01, speed=0.01, whiteboard_z=
         .solve()
     
     print(ret)
-    while komo.view_play(True):
-        print('none')
+    if debug:
+        while komo.view_play(True):
+            pass
 
     return komo
+
 
 def pen_picker(ry_config):
     # TODO Get pen position (Right now we just know the simulated exact pen possition)
