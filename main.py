@@ -16,7 +16,7 @@ C = ry.Config()
 C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 
 C.addFrame("pen") \
-    .setPosition([-0.25, .1, .69]) \
+    .setPosition([-0.25, .1, .675]) \
     .setShape(ry.ST.ssBox, size=[.02, .15, .02, .005]) \
     .setColor([1., .5, 0]) \
     .setMass(.1) \
@@ -31,7 +31,7 @@ bot.home(C)
 # Grasp pen
 grasp_solver = pen_picker(C)
 
-grasp = True
+grasp = False
 if grasp:
     path = grasp_solver.getPath()
 
@@ -50,7 +50,7 @@ if grasp:
     bot.home(C)
 
 # Draw sketch
-draw = False
+draw = True
 if draw:
     last_point = None
     for j, line in enumerate(sketch):
