@@ -21,3 +21,9 @@ def sketch_plotter(sketch, ry_config):
             total_points += 1
 
     return ry_config
+
+def line_length(line):
+    sum_ = 0
+    for i in range(len(line)-1):
+        sum_ += np.sqrt(np.power(line[i][0]-line[i+1][0], 2)+np.power(line[i][1]-line[i+1][1], 2)+np.power(line[i][2]-line[i+1][2], 2))
+    return sum_
