@@ -20,6 +20,11 @@ def sketch_plotter(sketch, ry_config):
             
             total_points += 1
 
+    for t in range(20):
+        ry_config.addFrame("Helper"+str(t)) \
+            .setShape(ry.ST.sphere, size=[.01]) \
+            .setColor([1,0,0])
+
     return ry_config
 
 def line_length(line):
