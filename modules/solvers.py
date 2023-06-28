@@ -22,16 +22,15 @@ def line_solver(waypoints, ry_config, debug=False):
     komo.setTiming(T, 20, 1., 2)
 
     komo.addControlObjective([], 0, 1e-2)
-    #komo.addControlObjective([], 1, 1)
     komo.addControlObjective([], 2, 1e1)
 
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
-    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [1e0], [1, 0, 0])
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [0.5], [1, 0, 0])
     komo.addObjective([T], ry.FS.qItself, [], ry.OT.eq, [1e1], [], 1)
 
     for i, point in enumerate(waypoints, start=0):
-        komo.addObjective([i+1], ry.FS.position, ["l_gripper"], ry.OT.eq, [1e1], point)
+        komo.addObjective([i+1], ry.FS.position, ["pen_tip"], ry.OT.eq, [1e1], point)
 
     ret = ry.NLP_Solver() \
         .setProblem(komo.nlp()) \

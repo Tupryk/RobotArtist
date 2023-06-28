@@ -6,10 +6,9 @@ from robotic import ry
 import time
 
 # TODO get WHITE_BOARD_Z from depth camera
-LIFT_SPACE = np.array([.1, .0, .0])
+LIFT_SPACE = np.array([.15, .0, .0])
 DRAW_SPEED = 0.1
 
-ry.params_add({'botsim/engine': 'kinematic'})
 ry.params_file('rai.cfg')
 ry.params_print()
 
@@ -23,7 +22,12 @@ C.addFrame("pen") \
     .setMass(.1) \
     .setContact(True)
 
-sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2])
+pen_tip = C.addFrame("pen_tip", "l_gripper")
+pen_tip.setRelativePose("t(.0 .0 -.03)")
+pen_tip.setShape(ry.ST.sphere, size=[.005])
+pen_tip.setColor([1., .0, 1.])
+
+sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2], whiteboard_depth=0.3)
 C = sketch_plotter(sketch, C)
 
 bot = ry.BotOp(C, False)
