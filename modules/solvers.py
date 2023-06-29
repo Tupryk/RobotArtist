@@ -1,32 +1,43 @@
 from robotic import ry
 
+def checkWaypoints(C, waypoints):
+    print(waypoints)
+    for t in range(20):
+        f = C.getFrame(f'Helper{t}')
+        if t<len(waypoints):
+            f.setPosition(waypoints[t])
+        else:
+            f.setPosition([0,0,0])
 
+    #C.view(True, f'waypoint checker :#={len(waypoints)}')
+        
 def line_solver(waypoints, ry_config, debug=False):
 
+    checkWaypoints(ry_config, waypoints)
+
     komo = ry.KOMO()
-    #ry.getFrame().getPosition()
     komo.setConfig(ry_config, True)
 
-    komo.setTiming(len(waypoints)+2, 3, 10, 2)
+    T = len(waypoints)
+    komo.setTiming(T, 20, 1., 2)
 
     komo.addControlObjective([], 0, 1e-2)
-    #komo.addControlObjective([], 1, 1)
-    komo.addControlObjective([], 2, 1e2)
+    komo.addControlObjective([], 2, 1e1)
 
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [0.5], [1, 0, 0])
+    komo.addObjective([T], ry.FS.qItself, [], ry.OT.eq, [1e1], [], 1)
 
-    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [1e0], [1, 0, 0])
-
-    for i, point in enumerate(waypoints):
-        komo.addObjective([i+2], ry.FS.position, ['l_gripper'], ry.OT.eq, [1e0], point)
+    for i, point in enumerate(waypoints, start=0):
+        komo.addObjective([i+1], ry.FS.position, ["pen_tip"], ry.OT.eq, [1e1], point)
 
     ret = ry.NLP_Solver() \
         .setProblem(komo.nlp()) \
         .setOptions(stopTolerance=1e-2, verbose=0) \
         .solve()
     
-    print(ret)
+    print('line_solver return:', ret)
     if debug:
         komo.view_play(True)
 
