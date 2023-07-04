@@ -24,9 +24,9 @@ C.addFrame("pen") \
     .setContact(True)
 
 C.addFrame("whiteboard") \
-    .setPosition([WHITEBOARD_DEPTH, .0, .0]) \
-    .setShape(ry.ST.ssBox, size=[.01, 1., 1.]) \
-    .setColor([.1, .1, 1.]) \
+    .setPosition([-WHITEBOARD_DEPTH, .25, 1.5]) \
+    .setShape(ry.ST.ssBox, size=[.01, 1., 1., .005]) \
+    .setColor([.3, .3, 1., 0.5]) \
     .setContact(True)
 
 pen_tip = C.addFrame("pen_tip", "l_gripper")
@@ -34,14 +34,14 @@ pen_tip.setRelativePose("t(.0 .0 -.03)")
 pen_tip.setShape(ry.ST.sphere, size=[.005])
 pen_tip.setColor([1., .0, 1.])
 
-sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2], whiteboard_depth=WHITEBOARD_DEPTH)
+sketch = load_sketch("data/good_drawing.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2], whiteboard_depth=WHITEBOARD_DEPTH)
 C = sketch_plotter(sketch, C)
 
 bot = ry.BotOp(C, False)
 bot.home(C)
 
 # Grasp pen
-grasp = True
+grasp = False
 if grasp:
     path = pen_picker(C)
 
@@ -70,7 +70,7 @@ def checkPath(C, path, name):
 
 # Draw sketch
 bot.sync(C, .1)
-draw = False
+draw = True
 if draw:
     last_point = np.array(sketch[0][0])+LIFT_SPACE
     for j, line in enumerate(sketch):
