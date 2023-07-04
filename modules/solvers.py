@@ -60,7 +60,7 @@ def pen_picker(ry_config):
     komo.setConfig(ry_config, True)
     komo.setTiming(2., 1, 5., 0)
     komo.addControlObjective([], 0, 1e-0)
-    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, 0, -1])
+    # komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, 0, -1])
     # komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
     # komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
 

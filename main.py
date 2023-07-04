@@ -34,7 +34,7 @@ bot = ry.BotOp(C, False)
 bot.home(C)
 
 # Grasp pen
-grasp = False
+grasp = True
 if grasp:
     path = pen_picker(C)
 
@@ -63,7 +63,7 @@ def checkPath(C, path, name):
 
 # Draw sketch
 bot.sync(C, .1)
-draw = True
+draw = False
 if draw:
     last_point = np.array(sketch[0][0])+LIFT_SPACE
     for j, line in enumerate(sketch):
