@@ -1,6 +1,20 @@
 import cv2
 import dlib
+import json
 import numpy as np
+import math
+
+def find_closest_point(points, target_point):
+    closest_point = None
+    min_distance = float('inf')
+
+    for i, point in enumerate(points):
+        distance = math.sqrt((point[0] - target_point[0])**2 + (point[1] - target_point[1])**2)
+        if distance < min_distance:
+            min_distance = distance
+            closest_point = i
+
+    return closest_point, min_distance
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
@@ -23,33 +37,70 @@ def scale_image(image, target_size):
 
     return resized_image
 
-def joined_segments(segments):
+def joined_segments(segments, img=None):
     maximum_dist = 10
+
     final_lines = []
-    total_lines = segments.shape[0]
-    for i, seg in enumerate(segments):
 
-        try:
-            segments = np.delete(segments, i, axis=0)
-            seg = np.array([[seg[0][0], seg[0][1]], [seg[0][2], seg[0][3]]])
-            line = [seg[0].tolist(), seg[1].tolist()]
+    new_segments = []
+    for seg in segments:
+        new_segments.append([int(seg[0]), int(seg[1])])
+        new_segments.append([int(seg[2]), int(seg[3])])
+    segments = new_segments.copy()
+    del new_segments
 
-            for j, seg_comp in enumerate(segments):
-                seg_comp = np.array([[seg_comp[0][0], seg_comp[0][1]], [seg_comp[0][2], seg_comp[0][3]]])
-                if np.linalg.norm(seg[1]-seg_comp[0]) <= maximum_dist:
-                    segments = np.delete(segments, j, axis=0)
-                    seg_comp[0] = seg[1]
-                    line.append(seg_comp[0].tolist())
+    initial_seg_count = len(segments)
+
+    while segments:
+
+        new_line = [segments.pop(0), segments.pop(0)]
+        
+        while True:
+
+            if not segments:
+                break
+
+            closest_point_0, min_dist_0 = find_closest_point(segments, new_line[0])
+            closest_point_1, min_dist_1 = find_closest_point(segments, new_line[-1])
+            min_dist = min_dist_0 if min_dist_0 < min_dist_1 else min_dist_1
+            closest_point = closest_point_0 if min_dist_0 < min_dist_1 else closest_point_1
+
+            if min_dist > maximum_dist:
+                break
             
-            final_lines.append(line)
-        except:
-            pass
+            if closest_point%2 == 0:
+                seg2 = segments.pop(closest_point+1)
+                seg1 = segments.pop(closest_point)
+            else:
+                seg1 = segments.pop(closest_point)
+                seg2 = segments.pop(closest_point-1)
+            
+            if min_dist == min_dist_0:
+                new_line = [seg1, seg2] + new_line
+            else:
+                new_line.append(seg1)
+                new_line.append(seg2)
 
-        if final_lines:
-            print(f"Average line size: {sum([len(l) for l in final_lines])/len(final_lines)}")
-            print(f"Created {len(final_lines)} lines. Total segments {total_lines}")
+            height, width = img.shape
+            lines_visual = np.zeros((height, width, 3), dtype=np.uint8)
 
-    print(final_lines)
+            for line in final_lines:
+                random_color = [np.random.random()*255, np.random.random()*255, np.random.random()*255]
+                for i in range(len(line)-1):
+                    cv2.line(lines_visual, (line[i][0], line[i][1]), (line[i+1][0], line[i+1][1]), (random_color[0], random_color[1], random_color[2]), 2)
+
+            for i in range(len(new_line)-1):
+                cv2.line(lines_visual, (new_line[i][0], new_line[i][1]), (new_line[i+1][0], new_line[i+1][1]), (0, 255, 0), 2)
+
+            cv2.imshow('drawing', lines_visual)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        final_lines.append(new_line)
+
+        print("Average line length: ", np.round(sum([len(line) for line in final_lines])/len(final_lines), 2))
+        print(f"Progress status: {((initial_seg_count-len(segments))*100/initial_seg_count):.2f}% done")
+
     return final_lines
 
 def plot_lines(lines, image):
@@ -111,26 +162,31 @@ while True:
 
     # apply probabilistic Hough transform
     lines = cv2.HoughLinesP(cv2.bitwise_not(img), 1, np.pi/180, 5, minLineLength, maxLineGap)
+    lines = [line[0] for line in lines]
+    lines = [[point for point in line] for line in lines]
 
     height, width = img.shape
     final = np.zeros((height, width, 3), dtype=np.uint8)
 
-    lines = joined_segments(lines)
+    print("Calculating lines...")
+
+    lines = joined_segments(lines, img)
     final = plot_lines(lines, final)
 
+    """
     try:
-        """
         print(lines.shape)
         for line in lines:
             for x1, y1, x2, y2 in line:
                 print(line)
                 cv2.line(final, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        """
     except:
         print("error")
+    """
 
+    json.dump(lines, open('data/good_drawing.json', 'w'))
     #cv2.imwrite("data/warhol.jpg", result)
-    cv2.imshow('Webcam', final)
+    cv2.imshow('drawing finished', final)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
