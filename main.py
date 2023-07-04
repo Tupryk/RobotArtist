@@ -8,6 +8,7 @@ import time
 # TODO get WHITE_BOARD_Z from depth camera
 LIFT_SPACE = np.array([.15, .0, .0])
 DRAW_SPEED = 0.1
+WHITEBOARD_DEPTH = .3
 
 ry.params_file('rai.cfg')
 ry.params_print()
@@ -22,12 +23,18 @@ C.addFrame("pen") \
     .setMass(.1) \
     .setContact(True)
 
+C.addFrame("whiteboard") \
+    .setPosition([WHITEBOARD_DEPTH, .0, .0]) \
+    .setShape(ry.ST.ssBox, size=[.01, 1., 1.]) \
+    .setColor([.1, .1, 1.]) \
+    .setContact(True)
+
 pen_tip = C.addFrame("pen_tip", "l_gripper")
 pen_tip.setRelativePose("t(.0 .0 -.03)")
 pen_tip.setShape(ry.ST.sphere, size=[.005])
 pen_tip.setColor([1., .0, 1.])
 
-sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2], whiteboard_depth=0.3)
+sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2], whiteboard_depth=WHITEBOARD_DEPTH)
 C = sketch_plotter(sketch, C)
 
 bot = ry.BotOp(C, False)
