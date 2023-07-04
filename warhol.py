@@ -2,7 +2,6 @@ import cv2
 import dlib
 import json
 import numpy as np
-from time import sleep
 
 
 detector = dlib.get_frontal_face_detector()
@@ -11,7 +10,6 @@ cap = cv2.VideoCapture(0)
 
 face_lines = json.load(open("data/face_lines.json"))
 
-sleep(3)
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 while True:
@@ -60,10 +58,10 @@ while True:
         if areas[i] >= 100:   #keep
             result[labels == i + 1] = 255
 
-    result = cv2.bitwise_not(result)
+    image = cv2.bitwise_not(result)
 
     #cv2.imwrite("data/warhol.jpg", result)
-    cv2.imshow('Webcam', result)
+    cv2.imshow('Webcam', image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
