@@ -1,19 +1,15 @@
 from robotic import ry
 
-def checkWaypoints(C, waypoints):
-    print(waypoints)
-    for t in range(20):
-        f = C.getFrame(f'Helper{t}')
-        if t<len(waypoints):
-            f.setPosition(waypoints[t])
-        else:
-            f.setPosition([0,0,0])
 
-    #C.view(True, f'waypoint checker :#={len(waypoints)}')
+def checkWaypoints(C, waypoints):
+    for t, waypoint in enumerate(waypoints):
+        f = C.getFrame(f'Helper{t}')
+        f.setPosition(waypoint)
+
         
 def line_solver(waypoints, ry_config, debug=False):
 
-    checkWaypoints(ry_config, waypoints)
+    # checkWaypoints(ry_config, waypoints)
 
     komo = ry.KOMO()
     komo.setConfig(ry_config, True)
@@ -26,7 +22,9 @@ def line_solver(waypoints, ry_config, debug=False):
 
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
+
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [0.5], [1, 0, 0])
+    # komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [.5], [0, -1, 1])
     komo.addObjective([T], ry.FS.qItself, [], ry.OT.eq, [1e1], [], 1)
 
     for i, point in enumerate(waypoints, start=0):
@@ -54,15 +52,20 @@ def pen_picker(ry_config):
     way0.setRelativePose("t(0 0 .1) d(90 0 0 1)")
 
     way1.setShape(ry.ST.marker, size=[.1])
-    way1.setRelativePose("d(90 0 0 1)")
+    way1.setRelativePose("t(0 -.03 0) d(90 0 0 1)")
+
+    #C.getFrame("pen").getRot / quat
 
     komo = ry.KOMO()
     komo.setConfig(ry_config, True)
     komo.setTiming(2., 1, 5., 0)
     komo.addControlObjective([], 0, 1e-0)
-    # komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, 0, -1])
-    # komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq);
-    # komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq);
+    
+    komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
+    komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
+
+    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.OT.eq, [1e1], [0, 1, 0])
+    komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [1e1], [0, -1, 1])
 
     komo.addObjective([1.], ry.FS.poseDiff, ["l_gripper", "way0"], ry.OT.eq, [1e1])
     komo.addObjective([2.], ry.FS.poseDiff, ["l_gripper", "way1"], ry.OT.eq, [1e1])
