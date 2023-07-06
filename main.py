@@ -8,7 +8,9 @@ import time
 # TODO get WHITE_BOARD_Z from depth camera
 LIFT_SPACE = np.array([.15, .0, .0])
 DRAW_SPEED = 0.1
-WHITEBOARD_DEPTH = .3
+WHITEBOARD_DEPTH = .4
+SCKETCH_DIMS = [.3, .3]
+CANVAS_CENTER = [-.05, 1.5]
 
 ry.params_file('rai.cfg')
 ry.params_print()
@@ -17,24 +19,24 @@ C = ry.Config()
 C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
 
 C.addFrame("pen") \
-    .setPosition([-0.25, .1, .675]) \
-    .setShape(ry.ST.ssBox, size=[.02, .15, .02, .005]) \
+    .setPosition([.0, .3, .675]) \
+    .setShape(ry.ST.ssBox, size=[.02, .1, .02, .005]) \
     .setColor([1., .5, 0]) \
     .setMass(.1) \
     .setContact(True)
 
 C.addFrame("whiteboard") \
-    .setPosition([WHITEBOARD_DEPTH, .0, .0]) \
-    .setShape(ry.ST.ssBox, size=[.01, 1., 1.]) \
-    .setColor([.1, .1, 1.]) \
+    .setPosition([-WHITEBOARD_DEPTH, CANVAS_CENTER[0]+SCKETCH_DIMS[0]+.1, CANVAS_CENTER[1]-SCKETCH_DIMS[1]]) \
+    .setShape(ry.ST.ssBox, size=[.01, SCKETCH_DIMS[0]*2, SCKETCH_DIMS[1]*2, .005]) \
+    .setColor([.3, .3, 1., 0.5]) \
     .setContact(True)
 
 pen_tip = C.addFrame("pen_tip", "l_gripper")
-pen_tip.setRelativePose("t(.0 .0 -.03)")
+pen_tip.setRelativePose("t(.0 .05 -.05)")
 pen_tip.setShape(ry.ST.sphere, size=[.005])
 pen_tip.setColor([1., .0, 1.])
 
-sketch = load_sketch("data/output.json", max_dims=[0.3, 0.3], canvas_center=[0.25, 1.2], whiteboard_depth=WHITEBOARD_DEPTH)
+sketch = load_sketch("data/output.json", max_dims=SCKETCH_DIMS, canvas_center=[-.05, 0], whiteboard_depth=WHITEBOARD_DEPTH)
 C = sketch_plotter(sketch, C)
 
 bot = ry.BotOp(C, False)
@@ -59,18 +61,9 @@ if grasp:
 
     bot.home(C)
 
-def checkPath(C, path, name):
-    print('path info ', name, ' dimension', path.shape)
-    for t in range(path.shape[0]):
-        C.setJointState(path[t])
-        C.view(False, f'path {name}, dim {path.shape}, t: {t}')
-        time.sleep(.05)
-    C.view(True, "DONE")
-
-
 # Draw sketch
 bot.sync(C, .1)
-draw = False
+draw = True
 if draw:
     last_point = np.array(sketch[0][0])+LIFT_SPACE
     for j, line in enumerate(sketch):
@@ -83,8 +76,6 @@ if draw:
         time_to_solve = line_length(lift_path)/DRAW_SPEED
         path = line_solver(lift_path[1:], C, debug=False)
 
-        #checkPath(C, path, "move-to-start")
-
         bot.move(path, [time_to_solve])
         while bot.getTimeToEnd() > 0:
             bot.sync(C, .1)
@@ -94,7 +85,6 @@ if draw:
         time_to_solve = line_length(line)/DRAW_SPEED
         path = line_solver(line[1:], C, debug=False)
 
-        #checkPath(C, path, "draw")
 
         bot.move(path, [time_to_solve])
         while bot.getTimeToEnd() > 0:
@@ -105,8 +95,6 @@ if draw:
         lift_path = [line_end, line_end + LIFT_SPACE]
         time_to_solve = line_length(lift_path)/DRAW_SPEED
         path = line_solver(lift_path[1:], C, debug=False)
-
-        #checkPath(C, path, "lift-pen")
 
         bot.move(path, [time_to_solve])
         while bot.getTimeToEnd() > 0:
