@@ -38,10 +38,10 @@ max_y = max(point[1] for line in sketch for point in line)
 image = np.zeros((max_x, max_y, 3), dtype=np.uint8)
 image = plot_lines(sketch, image)
 
-resized_sketch = exterminate_extra_points(sketch)
+compressed_sketch = exterminate_extra_points(sketch)
 
 new_image = np.zeros((max_x, max_y, 3), dtype=np.uint8)
-new_image = plot_lines(resized_sketch, new_image)
+new_image = plot_lines(compressed_sketch, new_image)
 
 while True:
     cv2.imshow('Original', image)
@@ -49,4 +49,7 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+cv2.imwrite("data/GoodDrawing.jpg", image)
+cv2.imwrite("data/CompressedGoodDrawing.jpg", new_image)
+json.dump(compressed_sketch, open('data/compressed_good_drawing.json', 'w'))
 cv2.destroyAllWindows()
