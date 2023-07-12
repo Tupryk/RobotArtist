@@ -10,7 +10,7 @@ def plot_lines(lines, image):
             cv2.line(image, (line[i][0], line[i][1]), (line[i+1][0], line[i+1][1]), (random_color[0], random_color[1], random_color[2]), 2)
     return image
 
-def exterminate_extra_points(sketch, threshold=15):
+def exterminate_extra_points(sketch, threshold=30):
     original_point_count = sum(len(line) for line in sketch)
     original_points_per_line = original_point_count/len(sketch)
 

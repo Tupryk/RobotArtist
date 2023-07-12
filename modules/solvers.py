@@ -15,7 +15,7 @@ def line_solver(waypoints, ry_config, debug=False):
     komo.setConfig(ry_config, True)
 
     T = len(waypoints)
-    komo.setTiming(T, 20, 1., 2)
+    komo.setTiming(T, 3, 1., 2)
 
     komo.addControlObjective([], 0, 1e-2)
     komo.addControlObjective([], 2, 1e1)
@@ -24,7 +24,6 @@ def line_solver(waypoints, ry_config, debug=False):
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
 
     komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.sos, [0.5], [1, 0, 0])
-    # komo.addObjective([], ry.FS.vectorZ, ["l_gripper"], ry.OT.eq, [.5], [0, -1, 1])
     komo.addObjective([T], ry.FS.qItself, [], ry.OT.eq, [1e1], [], 1)
 
     for i, point in enumerate(waypoints, start=0):
@@ -35,7 +34,9 @@ def line_solver(waypoints, ry_config, debug=False):
         .setOptions(stopTolerance=1e-2, verbose=0) \
         .solve()
     
-    print('line_solver return:', ret)
+    print('line_solver return:')
+    print("Line waypoints: ", len(waypoints))
+    print("Solution: ", ret)
     if debug:
         komo.view_play(True)
 

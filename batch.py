@@ -9,7 +9,7 @@ lines = json.load(open("data/compressed_good_drawing.json"))
 new_lines = []
 for line in lines:
     if len(line) > 1:
-        new_lines.append(list(batch(line, 32))[0])
+        new_lines.append(list(batch(line, 16))[0])
 
 print(max([len(line) for line in new_lines]))
 
