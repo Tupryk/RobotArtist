@@ -36,9 +36,10 @@ def give_lift_space(start_point, end_point, max_lift=.1, min_lift=.01):
 
 def look_path(center=np.array([0, 0, 1.5]), radious=np.array([-.6, 0, 0]), count_=6, ry_config=None):
     points = []
+    starting_angle=np.pi/count_
     rotation_matrix = np.array([
-        [np.cos(np.pi/count_), -np.sin(np.pi/count_), 0],
-        [np.sin(np.pi/count_),  np.cos(np.pi/count_), 0],
+        [np.cos(starting_angle), -np.sin(starting_angle), 0],
+        [np.sin(starting_angle),  np.cos(starting_angle), 0],
         [                   0,                     0, 1],
     ])
     if ry_config:

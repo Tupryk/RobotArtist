@@ -1,6 +1,8 @@
 from modules.loader import load_sketch
 from modules.solvers import line_solver, pen_picker
 from modules.utils import sketch_plotter, line_length, give_lift_space, look_path
+from modules.face_capture import get_face, face_to_sketch
+import matplotlib.pyplot as plt
 import numpy as np
 from robotic import ry
 
@@ -31,9 +33,13 @@ C.addFrame("whiteboard") \
     .setContact(True)
 
 pen_tip = C.addFrame("pen_tip", "l_gripper")
-pen_tip.setRelativePose("t(.0 .05 -.05)")
+pen_tip.setRelativePose("t(.0 .05 .0)")
 pen_tip.setShape(ry.ST.sphere, size=[.005])
 pen_tip.setColor([1., .0, 1.])
+
+f = C.addFrame("r_gripperCamera", "r_gripper")
+f.setShape(ry.ST.camera, [.1])
+f.addAttributes({'focalLength':0.895, 'width':640., 'height':360.})
 
 bot = ry.BotOp(C, False)
 bot.home(C)
@@ -71,12 +77,23 @@ if find_faces:
         index += 1
         if index >= len(points): index = 0
 
-        # Take picture
-        # if face: break
+        print("Capturing image...")
+        image, _ = bot.getImageAndDepth("r_gripperCamera")
 
-    # Make face into sketch
+        # fig = plt.figure(figsize=(10,5))
+        # plt.imshow(image)
+        # plt.show()
+
+        face = get_face(image)
+        if face:
+            print("Found a face!")
+            sketch = face_to_sketch(face)
+            break
+        else:
+            print("Face not found :(")
+
 else:
-    sketch = load_sketch("data/compressed_good_drawing.json", max_dims=SCKETCH_DIMS, canvas_center=CANVAS_CENTER, whiteboard_depth=WHITEBOARD_DEPTH)
+    sketch = load_sketch("data/output.json", max_dims=SCKETCH_DIMS, canvas_center=[-.05, 2.4], whiteboard_depth=WHITEBOARD_DEPTH, invert_y=True)
 
 C = sketch_plotter(sketch, C)
 

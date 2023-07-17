@@ -2,7 +2,7 @@ import json
 import numpy as np
 
 
-def load_sketch(file_path, max_dims=[0.5, 0.5], canvas_center=[0.25, 1], whiteboard_depth=0.2):
+def load_sketch(file_path, max_dims=[0.5, 0.5], canvas_center=[0.25, 1], whiteboard_depth=0.2, invert_y=False):
 
     original_sketch = json.load(open(file_path))
     scaled_sketch = []
@@ -10,6 +10,10 @@ def load_sketch(file_path, max_dims=[0.5, 0.5], canvas_center=[0.25, 1], whitebo
     points = []
     for line in original_sketch:
         points += line
+    if invert_y:
+        for i, _ in enumerate(points):
+            points[i][1] *= -1
+
     x_coords = [point[0] for point in points]
     y_coords = [point[1] for point in points]
     min_x, max_x = min(x_coords), max(x_coords)
