@@ -52,9 +52,9 @@ def get_face_from_image(image):
         mask = np.zeros(image.shape[:2], dtype=np.uint8)
         cv2.rectangle(mask, (x, y), (x + w, y + h), 255, -1)
 
-        return cv2.bitwise_and(image, image, mask=mask)
+        return image, True
     else:
-        return None
+        return None, False
 
 def face_to_sketch(image):
     return []
@@ -116,14 +116,16 @@ def search_faces(ry_config, bot, simple=False):
             .solve()
         
         # Move robot throught generated path
-        bot.move(komo.getPath(), [1.])
+        bot.move(komo.getPath(), [3.])
         while bot.getTimeToEnd() > 0:
             bot.sync(ry_config, .1)
 
-        image, _ = bot.getImageAndDepth("r_gripperCamera")
+        image, _ = bot.getImageAndDepth("l_gripperCamera")
+        plt.imshow(image)
+        plt.show()
 
-        face = get_face_from_image(image)
-        if face:
+        face, success = get_face_from_image(image)
+        if success:
             print("Found a face!")
             plt.imshow(image)
             plt.show()

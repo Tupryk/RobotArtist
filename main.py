@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     C = generate_config(CANVAS_CENTER, SCKETCH_DIMS)
 
-    bot = ry.BotOp(C, False)
+    bot = ry.BotOp(C, True)
     bot.home(C)
 
     # Find Faces
@@ -28,6 +28,9 @@ if __name__ == "__main__":
         sketch_2d = search_faces(C, bot, simple=True)
     # Load predefined sketch
     else: sketch = load_sketch("data/compressed_good_drawing_short_lines.json", CANVAS_CENTER, SCKETCH_DIMS, invert_y=True)
+
+    bot.home(C)
+    bot.sync(C, .1)
 
     # Display sketch in simulation
     C = sketch_plotter(sketch, C)

@@ -2,11 +2,11 @@ from robotic import ry
 
 
 def generate_config(CANVAS_CENTER, SCKETCH_DIMS):
+
     ry.params_file('rai.cfg')
-    ry.params_print()
 
     C = ry.Config()
-    C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle.g'))
+    C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle_jenga.g'))
 
     C.addFrame("pen") \
         .setPosition([.0, .3, .675]) \
@@ -26,7 +26,7 @@ def generate_config(CANVAS_CENTER, SCKETCH_DIMS):
     pen_tip.setShape(ry.ST.sphere, size=[.005])
     pen_tip.setColor([1., .0, 1.])
 
-    f = C.addFrame("r_gripperCamera", "r_gripper")
+    f = C.addFrame("l_gripperCamera", "l_gripper")
     f.setShape(ry.ST.camera, [.1])
     f.addAttributes({'focalLength':0.895, 'width':640., 'height':360.})
 

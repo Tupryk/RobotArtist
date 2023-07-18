@@ -1,0 +1,244 @@
+** compiled at:     Jun  9 2023 11:06:01
+** execution start: 2023-07-18 11:00:25:264257
+graph.cpp:initParameters:1384(3) opening config file 'rai.cfg'
+graph.cpp:initParameters:1389(3)  - success
+graph.cpp:initParameters:1397(3) opening base config file '/home/mtoussai/git/botop/rai/../local.cfg'
+graph.cpp:initParameters:1401(3)  - success
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/eckart/RobotArtist'
+util.cpp:cd_file:1036(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/../rai-robotModels/scenarios' from '/home/labcourse/eckart/RobotArtist'
+util.cpp:getIs:1065(3) opening input file 'pandaSingle_jenga.g'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/scenarios'
+util.cpp:getIs:1065(3) opening input file 'panda_fixGripper.g'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/scenarios'
+util.cpp:cd_file:1036(3) entering path '../panda' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/scenarios'
+util.cpp:getIs:1065(3) opening input file 'panda.g'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'panda_clean.g'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/scenarios'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/scenarios'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link0.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link1.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link2.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link3.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link4.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link5.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link6.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'link7.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'hand.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'finger.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:cd_file:1036(3) entering path 'meshes' from '/home/labcourse/.local/lib/python3.8/site-packages/robotic/rai-robotModels/panda'
+util.cpp:getIs:1065(3) opening input file 'finger.ply'
+util.cpp:cd_start:1028(3) entering path '/home/labcourse/eckart/RobotArtist'
+util.ipp:getParameterBase:36(3)       bot/useGripper:     1 # default [b]
+util.ipp:getParameterBase:36(3)       bot/useRobotiq:     1 # default [b]
+util.ipp:getParameterBase:29(3)           bot/useArm:  left # user [N3rai6StringE]
+bot.cpp:BotOp:35(0) OPENING FRANKAS
+util.ipp:getParameterBase:36(3)       Franka/Kp_freq:     [20, 20, 20, 20, 10, 15, 10] # default [N3rai11ArrayDoubleE]
+util.ipp:getParameterBase:36(3)      Franka/Kd_ratio:     [0.6, 0.6, 0.4, 0.4, 0.1, 0.5, 0.1] # default [N3rai11ArrayDoubleE]
+util.ipp:getParameterBase:36(3)      Franka/friction:     [0, 0, 0, 0, 0, 0, 0] # default [N3rai11ArrayDoubleE]
+franka.cpp:init:34(0) FRANKA: Kp_freq:[20, 20, 20, 20, 10, 15, 10] Kd_ratio:[0.6, 0.6, 0.4, 0.4, 0.1, 0.5, 0.1] friction:[0, 0, 0, 0, 0, 0, 0]
+franka.cpp:init:46(0) launching Franka 0 at 172.16.0.2
+FrankaGripper.cpp:FrankaGripper:14(0) launching FrankaGripper 0 at 172.16.0.2
+FrankaGripper.cpp:FrankaGripper:18(0) gripper max width:0.0788256
+util.ipp:getParameterBase:36(3)     bot/useOptitrack:     0 # default [b]
+util.ipp:getParameterBase:36(3)         bot/useAudio:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)         KOMO/verbose:     1 # default [i]
+util.ipp:getParameterBase:36(3) KOMO/animateOptimization:     0 # default [i]
+util.ipp:getParameterBase:36(3)     KOMO/mimicStable:     1 # default [b]
+util.ipp:getParameterBase:36(3)          KOMO/useFCL:     1 # default [b]
+util.ipp:getParameterBase:36(3) KOMO/unscaleEqIneqReport:     0 # default [b]
+util.ipp:getParameterBase:36(3)          KOMO/solver: sparse # default [N3rai4EnumINS_10KOMOsolverEEE]
+util.ipp:getParameterBase:36(3)          opt/verbose:     1 # default [i]
+util.ipp:getParameterBase:36(3)    opt/stopTolerance:  0.01 # default [d]
+util.ipp:getParameterBase:36(3)   opt/stopFTolerance:    -1 # default [d]
+util.ipp:getParameterBase:36(3)   opt/stopGTolerance:    -1 # default [d]
+util.ipp:getParameterBase:36(3)        opt/stopEvals:  1000 # default [i]
+util.ipp:getParameterBase:36(3)        opt/stopIters:  1000 # default [i]
+util.ipp:getParameterBase:36(3)       opt/stopOuters:  1000 # default [i]
+util.ipp:getParameterBase:36(3)    opt/stopLineSteps:    10 # default [i]
+util.ipp:getParameterBase:36(3)    opt/stopTinySteps:    10 # default [i]
+util.ipp:getParameterBase:36(3)         opt/initStep:     1 # default [d]
+util.ipp:getParameterBase:36(3)          opt/minStep:    -1 # default [d]
+util.ipp:getParameterBase:36(3)          opt/maxStep:   0.2 # default [d]
+util.ipp:getParameterBase:36(3)          opt/damping:     1 # default [d]
+util.ipp:getParameterBase:36(3)          opt/stepInc:   1.5 # default [d]
+util.ipp:getParameterBase:36(3)          opt/stepDec:   0.5 # default [d]
+util.ipp:getParameterBase:36(3)            opt/wolfe:  0.01 # default [d]
+util.ipp:getParameterBase:36(3)    opt/boundedNewton:     1 # default [b]
+util.ipp:getParameterBase:36(3)           opt/muInit:     1 # default [d]
+util.ipp:getParameterBase:36(3)            opt/muInc:     5 # default [d]
+util.ipp:getParameterBase:36(3)            opt/muMax: 10000 # default [d]
+util.ipp:getParameterBase:36(3)         opt/muLBInit:   0.1 # default [d]
+util.ipp:getParameterBase:36(3)          opt/muLBDec:   0.2 # default [d]
+util.ipp:getParameterBase:36(3) opt/constrainedMethod:  # default [N3rai6StringE]
+util.ipp:getParameterBase:36(3)                 seed:     0 # default [j]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)      bot/raiseWindow:     0 # default [b]
+util.ipp:getParameterBase:36(3)  RealSense/longCable:     0 # default [b]
+util.ipp:getParameterBase:29(3) RealSense/resolution:  1280 # user [i]
+util.ipp:getParameterBase:29(3) RealSense/alignToDepth:     0 # user [b]
+util.ipp:getParameterBase:36(3) RealSense/autoExposure:     1 # default [b]
+util.ipp:getParameterBase:36(3)   RealSense/exposure:   500 # default [d]
+util.ipp:getParameterBase:36(3)      RealSense/white:  4000 # default [d]
+RealSenseThread.cpp:open:79(1) sensor Stereo Module
+RealSenseThread.cpp:open:84(1)   option Exposure=8500  (Depth Exposure (usec))  [1,200000]
+RealSenseThread.cpp:open:84(1)   option Gain=16  (UVC image gain)  [16,248]
+RealSenseThread.cpp:open:84(1)   option Enable Auto Exposure=1  (Enable Auto Exposure)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Visual Preset=0  (Advanced-Mode Preset)  [0,5]
+RealSenseThread.cpp:open:84(1)   option Laser Power=150  (Manual laser power in mw. applicable only when laser power mode is set to Manual)  [0,360]
+RealSenseThread.cpp:open:84(1)   option Emitter Enabled=1  (Emitter select, 0-disable all emitters, 1-enable laser, 2-enable laser auto (opt), 3-enable LED (opt))  [0,2]
+RealSenseThread.cpp:open:84(1)   option Frames Queue Size=16  (Max number of frames you can hold at a given time. Increasing this number will reduce frame drops but increase latency, and vice versa)  [0,32]
+RealSenseThread.cpp:open:84(1)   option Asic Temperature=38  (Current Asic Temperature (degree celsius))  [-40,125]
+RealSenseThread.cpp:open:84(1)   option Error Polling Enabled=1  (Enable / disable polling of camera internal errors)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Projector Temperature=38  (Current Projector Temperature (degree celsius))  [-40,125]
+RealSenseThread.cpp:open:84(1)   option Output Trigger Enabled=0  (Generate trigger from the camera to external device once per frame)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Depth Units=0.001  (Number of meters represented by a single depth unit)  [1e-06,0.01]
+RealSenseThread.cpp:open:84(1)   option Stereo Baseline=49.9445  (Distance in mm between the stereo imagers)  [49.9445,49.9445]
+RealSenseThread.cpp:open:84(1)   option Inter Cam Sync Mode=0  (Inter-camera synchronization mode: 0:Default, 1:Master, 2:Slave, 3:Full Salve, 4-258:Genlock with burst count of 1-255 frames for each trigger, 259 and 260 for two frames per trigger with laser ON-OFF and OFF-ON.)  [0,260]
+RealSenseThread.cpp:open:84(1)   option Emitter On Off=0  (Alternating emitter pattern, toggled on/off on per-frame basis)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Global Time Enabled=1  (Enable/Disable global timestamp)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Emitter Always On=0  (Emitter always on mode: 0:disabled(default), 1:enabled)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Hdr Enabled=0  (HDR Option)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Sequence Name=0  (HDR Option)  [0,3]
+RealSenseThread.cpp:open:84(1)   option Sequence Size=2  (HDR Option)  [2,2]
+RealSenseThread.cpp:open:84(1)   option Sequence Id=0  (HDR Option)  [0,2]
+RealSenseThread.cpp:open:125(1)   I enabled auto exposure
+RealSenseThread.cpp:open:79(1) sensor RGB Camera
+RealSenseThread.cpp:open:84(1)   option Backlight Compensation=0  (Enable / disable backlight compensation)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Brightness=0  (UVC image brightness)  [-64,64]
+RealSenseThread.cpp:open:84(1)   option Contrast=50  (UVC image contrast)  [0,100]
+RealSenseThread.cpp:open:84(1)   option Exposure=166  (Controls exposure time of color camera. Setting any value will disable auto exposure)  [1,10000]
+RealSenseThread.cpp:open:84(1)   option Gain=64  (UVC image gain)  [0,128]
+RealSenseThread.cpp:open:84(1)   option Gamma=300  (UVC image gamma setting)  [100,500]
+RealSenseThread.cpp:open:84(1)   option Hue=0  (UVC image hue)  [-180,180]
+RealSenseThread.cpp:open:84(1)   option Saturation=64  (UVC image saturation setting)  [0,100]
+RealSenseThread.cpp:open:84(1)   option Sharpness=50  (UVC image sharpness setting)  [0,100]
+RealSenseThread.cpp:open:84(1)   option White Balance=4600  (Controls white balance of color image. Setting any value will disable auto white balance)  [2800,6500]
+RealSenseThread.cpp:open:84(1)   option Enable Auto Exposure=1  (Enable / disable auto-exposure)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Enable Auto White Balance=1  (Enable / disable auto-white-balance)  [0,1]
+RealSenseThread.cpp:open:84(1)   option Frames Queue Size=16  (Max number of frames you can hold at a given time. Increasing this number will reduce frame drops but increase latency, and vice versa)  [0,32]
+RealSenseThread.cpp:open:84(1)   option Power Line Frequency=3  (Power Line Frequency)  [0,2]
+RealSenseThread.cpp:open:84(1)   option Auto Exposure Priority=0  (Restrict Auto-Exposure to enforce constant FPS rate. Turn ON to remove the restrictions (may result in FPS drop))  [0,1]
+RealSenseThread.cpp:open:84(1)   option Global Time Enabled=1  (Enable/Disable global timestamp)  [0,1]
+RealSenseThread.cpp:open:114(1)   I enabled auto exposure
+RealSenseThread.cpp:open:118(1)   I enabled auto white balance
+RealSenseThread.cpp:open:134(1) stream 'Depth' idx:0 type:Depth format:Z16 fps30 id:0
+RealSenseThread.cpp:open:138(1)   is video: w=1280 h=720 px=640.918 py=358.843 fx=635.968 fy=635.968 distorsion=Brown Conrady[0, 0, 0, 0, 0]
+RealSenseThread.cpp:open:134(1) stream 'Color' idx:0 type:Color format:RGB8 fps30 id:3
+RealSenseThread.cpp:open:138(1)   is video: w=1280 h=720 px=645.419 py=363.695 fx=921.823 fy=921.606 distorsion=Inverse Brown Conrady[0, 0, 0, 0, 0]
+RealSenseThread.cpp:open:148(1) depth scale: 0.001
+RealSenseThread.cpp:getImageAndDepth:39(0) waiting to get 60 images from RealSense for autoexposure settling
+bot.cpp:~BotOp:94(0) shutting down BotOp...
+FrankaGripper.cpp:~FrankaGripper:29(0) shutting down FrankaGripper
+franka.cpp:~FrankaThread:14(0) shutting down Franka 0
+franka.cpp:step:350(0) EXIT FRANKA CONTROL LOOP
+RealSenseThread.cpp:~RealSenseThread:32(0) DTOR
+RealSenseThread.cpp:close:161(0) STOPPING
+** execution stop: 2023-07-18 11:00:38:632981
+** real time: 13.3687sec
+** CPU time: 6.63543
