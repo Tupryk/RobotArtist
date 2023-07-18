@@ -1,7 +1,7 @@
 from robotic import ry
 
 from config import generate_config
-from modules.utils.loader import load_sketch
+from modules.utils.loader import load_sketch, sketch_to_3d
 from modules.utils.visual import sketch_plotter
 
 from modules.face_capture import search_faces
@@ -28,6 +28,7 @@ if __name__ == "__main__":
     # Find Faces
     if SEARCH_FACES:
         sketch_2d = search_faces(C, bot, simple=True)
+        sketch = sketch_to_3d(sketch_2d, CANVAS_CENTER, SCKETCH_DIMS)
     # Load predefined sketch
     else: sketch = load_sketch("data/compressed_good_drawing_short_lines.json", CANVAS_CENTER, SCKETCH_DIMS, invert_y=True)
 
