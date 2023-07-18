@@ -6,7 +6,7 @@ from robotic import ry
 import matplotlib.pyplot as plt
 
 
-def look_path(center=np.array([0, 0, 1.5]), radious=np.array([-.6, 0, 0]), count_=6, ry_config=None):
+def look_path(center=np.array([0, 0, 1.5]), radious=np.array([.6, 0, 0]), count_=6, ry_config=None):
     points = []
     starting_angle=np.pi/count_
     rotation_matrix = np.array([

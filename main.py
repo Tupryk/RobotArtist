@@ -12,7 +12,7 @@ SEARCH_FACES = True
 PICKUP_PEN = True
 DO_SKETCH = True
 
-CANVAS_CENTER = [-.05, 1, -.6]
+CANVAS_CENTER = [-.05, 1, .6]
 SCKETCH_DIMS = [.3, .3]
 
 
