@@ -1,4 +1,6 @@
 import cv2
+import dlib
+import json
 import numpy as np
 from robotic import ry
 import matplotlib.pyplot as plt
@@ -57,7 +59,36 @@ def get_face_from_image(image):
 def face_to_sketch(image):
     return []
 
-def search_faces(ry_config, bot):
+def face_to_landmarks(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
+
+    faces = detector(gray, 1)
+
+    face_lines = json.load(open("../data/face_lines.json"))
+
+    if len(faces) > 0:
+        landmarks = predictor(gray, faces[0])
+
+        real_lines = []
+        for line in face_lines:
+            real_line = []
+
+            for i in range(len(line)):
+                if i < len(line)-1:
+                    cv2.line(image, (landmarks.part(line[i]).x, landmarks.part(line[i]).y),
+                        (landmarks.part(line[i+1]).x, landmarks.part(line[i+1]).y), (0, 0, 255), 1)
+                real_line.append([landmarks.part(line[i]).x, -landmarks.part(line[i]).y])
+            real_lines.append(real_line)
+
+        return real_lines
+    else:
+        print("Failed capturing landmarks.")
+        return None
+
+def search_faces(ry_config, bot, simple=False):
 
     # Load search points
     points = look_path(ry_config=ry_config)
@@ -96,6 +127,9 @@ def search_faces(ry_config, bot):
             print("Found a face!")
             plt.imshow(image)
             plt.show()
+            if simple:
+                lines = face_to_landmarks(face)
+                if lines: return lines
             return face_to_sketch(face)
         
         # Restart point loop if necessary

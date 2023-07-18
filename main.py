@@ -8,7 +8,7 @@ from modules.face_capture import search_faces
 from modules.sketcher import do_sketch
 from modules.pen import pickup_pen
 
-SEARCH_FACES = False
+SEARCH_FACES = True
 PICKUP_PEN = True
 DO_SKETCH = True
 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     # Find Faces
     if SEARCH_FACES:
-        sketch_2d = search_faces(C, bot)
+        sketch_2d = search_faces(C, bot, simple=True)
     # Load predefined sketch
     else: sketch = load_sketch("data/compressed_good_drawing_short_lines.json", CANVAS_CENTER, SCKETCH_DIMS, invert_y=True)
 
