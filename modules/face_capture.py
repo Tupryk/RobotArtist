@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from robotic import ry
-from modules.utils import look_path
+import matplotlib.pyplot as plt
 
 
 def look_path(center=np.array([0, 0, 1.5]), radious=np.array([-.6, 0, 0]), count_=6, ry_config=None):
@@ -91,13 +91,11 @@ def search_faces(ry_config, bot):
 
         image, _ = bot.getImageAndDepth("r_gripperCamera")
 
-        # fig = plt.figure(figsize=(10,5))
-        # plt.imshow(image)
-        # plt.show()
-
         face = get_face_from_image(image)
         if face:
             print("Found a face!")
+            plt.imshow(image)
+            plt.show()
             return face_to_sketch(face)
         
         # Restart point loop if necessary

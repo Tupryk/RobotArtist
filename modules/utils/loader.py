@@ -1,7 +1,7 @@
 import json
 
 
-def sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS, invert_y=False):
+def sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS):
 
     # Get the maximum possible x and y coordinates
     x_coords = [point[0] for points in original_sketch for point in points]
@@ -30,5 +30,9 @@ def sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS, invert_y=False):
     
 def load_sketch(file_path, CANVAS_CENTER, SCKETCH_DIMS, invert_y=False):
     original_sketch = json.load(open(file_path))
-    return sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS, invert_y)
+    if invert_y:
+        for i, line in enumerate(original_sketch):
+            for j, _ in enumerate(line):
+                original_sketch[i][j][1] *= -1
+    return sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS)
     

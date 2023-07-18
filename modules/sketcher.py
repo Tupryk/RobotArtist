@@ -29,11 +29,9 @@ def line_solver(waypoints, ry_config, debug=False):
         .setProblem(komo.nlp()) \
         .setOptions(stopTolerance=1e-2, verbose=0) \
         .solve()
-    
-    print('line_solver return:')
-    print("Line waypoints: ", len(waypoints))
-    print("Solution: ", ret)
+
     if debug:
+        print("Solution: ", ret)
         komo.view_play(True)
 
     return komo.getPath()

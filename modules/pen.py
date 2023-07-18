@@ -35,15 +35,20 @@ def pen_picker(ry_config):
 
 def pickup_pen(ry_config, bot):
 
-    path = pen_picker(ry_config)
-
     bot.gripperOpen(ry._left)
     while not bot.gripperDone(ry._left):
         bot.sync(ry_config, .1)
 
-    bot.move(path, [2., 3.])
-    while bot.getTimeToEnd() > 0:
+    # path = pen_picker(ry_config)
+
+    # bot.move(path, [2., 3.])
+    # while bot.getTimeToEnd() > 0:
+    #     bot.sync(ry_config, .1)
+
+    while True:
         bot.sync(ry_config, .1)
+        if bot.getKeyPressed() == 112:
+            break
 
     bot.gripperClose(ry._left)
     while not bot.gripperDone(ry._left):
