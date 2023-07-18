@@ -34,27 +34,24 @@ def look_path(center=np.array([0, 0, 1.5]), radious=np.array([.6, 0, 0]), count_
     return points
 
 def get_face_from_image(image):
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-    if len(faces) > 0:
-        (x, y, w, h) = faces[0]
-        
-        margin = 20
-        x -= margin
-        y -= margin
-        w += 2 * margin
-        h += 2 * margin
+    for (x, y, w, h) in faces:
+        roi_x = max(0, x - int(w * 0.25))
+        roi_y = max(0, y - int(h * 0.35))
+        roi_w = min(image.shape[1] - roi_x, int(w * 1.5))
+        roi_h = min(image.shape[0] - roi_y, int(h * 1.5))
 
-        mask = np.zeros(image.shape[:2], dtype=np.uint8)
-        cv2.rectangle(mask, (x, y), (x + w, y + h), 255, -1)
+        cv2.rectangle(image, (roi_x, roi_y), (roi_x+roi_w, roi_y+roi_h), (0, 255, 0), 2)
+
+        image = image[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
 
         return image, True
-    else:
-        return None, False
+
+    return None, False
 
 def face_to_sketch(image):
     return []
@@ -67,7 +64,7 @@ def face_to_landmarks(image):
 
     faces = detector(gray, 1)
 
-    face_lines = json.load(open("../data/face_lines.json"))
+    face_lines = json.load(open("data/face_lines.json"))
 
     if len(faces) > 0:
         landmarks = predictor(gray, faces[0])
@@ -116,18 +113,17 @@ def search_faces(ry_config, bot, simple=False):
             .solve()
         
         # Move robot throught generated path
-        bot.move(komo.getPath(), [3.])
+        bot.move(komo.getPath(), [2.])
         while bot.getTimeToEnd() > 0:
             bot.sync(ry_config, .1)
 
         image, _ = bot.getImageAndDepth("l_gripperCamera")
-        plt.imshow(image)
-        plt.show()
+        image = cv2.flip(image, 0)
 
         face, success = get_face_from_image(image)
         if success:
             print("Found a face!")
-            plt.imshow(image)
+            plt.imshow(face)
             plt.show()
             if simple:
                 lines = face_to_landmarks(face)

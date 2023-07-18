@@ -45,6 +45,7 @@ def pickup_pen(ry_config, bot):
     # while bot.getTimeToEnd() > 0:
     #     bot.sync(ry_config, .1)
 
+    print("Wating for gripper close command (Press p).")
     while True:
         bot.sync(ry_config, .1)
         if bot.getKeyPressed() == 112:

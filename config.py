@@ -1,12 +1,12 @@
 from robotic import ry
 
 
-def generate_config(CANVAS_CENTER, SCKETCH_DIMS):
+def generate_config(CANVAS_CENTER, SCKETCH_DIMS, ON_REAL):
 
     ry.params_file('rai.cfg')
 
     C = ry.Config()
-    C.addFile(ry.raiPath('../rai-robotModels/scenarios/pandaSingle_jenga.g'))
+    C.addFile(ry.raiPath(f'../rai-robotModels/scenarios/pandaSingle{"_jenga" if ON_REAL else ""}.g'))
 
     C.addFrame("pen") \
         .setPosition([.0, .3, .675]) \
