@@ -67,7 +67,7 @@ def face_to_landmarks(image):
 
     faces = detector(gray, 1)
 
-    face_lines = json.load(open("../data/face_lines.json"))
+    face_lines = json.load(open("data/face_lines.json"))
 
     if len(faces) > 0:
         landmarks = predictor(gray, faces[0])
@@ -121,13 +121,12 @@ def search_faces(ry_config, bot, simple=False):
             bot.sync(ry_config, .1)
 
         image, _ = bot.getImageAndDepth("l_gripperCamera")
-        plt.imshow(image)
-        plt.show()
+        image = cv2.flip(image, 0)
 
         face, success = get_face_from_image(image)
         if success:
             print("Found a face!")
-            plt.imshow(image)
+            plt.imshow(face)
             plt.show()
             if simple:
                 lines = face_to_landmarks(face)

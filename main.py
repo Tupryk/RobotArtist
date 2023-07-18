@@ -15,12 +15,14 @@ DO_SKETCH = True
 CANVAS_CENTER = [-.05, 1, .6]
 SCKETCH_DIMS = [.3, .3]
 
+ON_REAL = False
+
 
 if __name__ == "__main__":
 
-    C = generate_config(CANVAS_CENTER, SCKETCH_DIMS)
+    C = generate_config(CANVAS_CENTER, SCKETCH_DIMS, ON_REAL)
 
-    bot = ry.BotOp(C, True)
+    bot = ry.BotOp(C, ON_REAL)
     bot.home(C)
 
     # Find Faces
