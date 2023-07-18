@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     # Find Faces
     if SEARCH_FACES:
-        sketch_2d = search_faces(C, bot, simple=True)
+        sketch_2d = search_faces(C, bot, simple=True, show=True)
         sketch = sketch_to_3d(sketch_2d, CANVAS_CENTER, SCKETCH_DIMS)
     # Load predefined sketch
     else: sketch = load_sketch("data/compressed_good_drawing_short_lines.json", CANVAS_CENTER, SCKETCH_DIMS, invert_y=True)

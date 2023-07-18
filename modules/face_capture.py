@@ -4,6 +4,10 @@ import json
 import numpy as np
 from robotic import ry
 import matplotlib.pyplot as plt
+from modules.utils.image import scale_image, get_drawing_bitmap, plot_lines
+from modules.utils.line_math import joined_segments, exterminate_extra_points
+
+RENDER_DIMS = [800, 800]
 
 
 def look_path(center=np.array([0, 0, 1.5]), radious=np.array([.6, 0, 0]), count_=6, ry_config=None):
@@ -48,13 +52,41 @@ def get_face_from_image(image):
         cv2.rectangle(image, (roi_x, roi_y), (roi_x+roi_w, roi_y+roi_h), (0, 255, 0), 2)
 
         image = image[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
+        image = scale_image(image, [800, 800])
 
         return image, True
 
     return None, False
 
-def face_to_sketch(image):
-    return []
+def face_to_sketch(image, show=False):
+    image = scale_image(image, RENDER_DIMS)
+    image = get_drawing_bitmap(image, show=show)
+        
+    # Apply probabilistic Hough transform
+    print("Calculating lines...")
+    minLineLength = 2
+    maxLineGap = 2
+
+    lines = cv2.HoughLinesP(cv2.bitwise_not(image), 1, np.pi/180, 5, minLineLength, maxLineGap)
+
+    lines = [line[0] for line in lines]
+    lines = [[point for point in line] for line in lines]
+
+    sketch = joined_segments(lines)
+
+    if show:
+        canvas = np.zeros((RENDER_DIMS[0], RENDER_DIMS[1], 3), dtype=np.uint8)
+        image = plot_lines(sketch, canvas)
+        cv2.imshow("Original Sketch", image)
+
+    compressed_sketch = exterminate_extra_points(sketch, threshold=15)
+
+    if show:
+        canvas = np.zeros((RENDER_DIMS[0], RENDER_DIMS[1], 3), dtype=np.uint8)
+        compressed_image = plot_lines(compressed_sketch, canvas)
+        cv2.imshow("Compressed Sketch", compressed_image)
+
+    return sketch
 
 def face_to_landmarks(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -85,7 +117,7 @@ def face_to_landmarks(image):
         print("Failed capturing landmarks.")
         return None
 
-def search_faces(ry_config, bot, simple=False):
+def search_faces(ry_config, bot, simple=False, show=False):
 
     # Load search points
     points = look_path(ry_config=ry_config)
@@ -128,7 +160,7 @@ def search_faces(ry_config, bot, simple=False):
             if simple:
                 lines = face_to_landmarks(face)
                 if lines: return lines
-            return face_to_sketch(face)
+            return face_to_sketch(face, show=show)
         
         # Restart point loop if necessary
         index += 1
