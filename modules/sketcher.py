@@ -3,7 +3,7 @@ from robotic import ry
 from modules.utils.line_math import line_length, give_lift_space
 
 MAX_LIFT_SPACE = np.array([.15, .0, .0])
-DRAW_SPEED = 0.1
+DRAW_SPEED = .1
 
 
 def line_solver(waypoints, ry_config, debug=False):
@@ -19,7 +19,7 @@ def line_solver(waypoints, ry_config, debug=False):
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
 
-    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.eq, [0.5], [-1, 0, 0])
+    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.OT.eq, [0.5], [-1, 0, 0])
     komo.addObjective([T], ry.FS.qItself, [], ry.OT.eq, [1e1], [], 1)
 
     for i, point in enumerate(waypoints, start=0):

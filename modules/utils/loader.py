@@ -28,11 +28,15 @@ def sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS):
     return scaled_sketch
 
     
-def load_sketch(file_path, CANVAS_CENTER, SCKETCH_DIMS, invert_y=False):
+def load_sketch(file_path, CANVAS_CENTER, SCKETCH_DIMS, invert_y=False, invert_x=False):
     original_sketch = json.load(open(file_path))
     if invert_y:
         for i, line in enumerate(original_sketch):
             for j, _ in enumerate(line):
                 original_sketch[i][j][1] *= -1
+    if invert_x:
+        for i, line in enumerate(original_sketch):
+            for j, _ in enumerate(line):
+                original_sketch[i][j][0] *= -1
     return sketch_to_3d(original_sketch, CANVAS_CENTER, SCKETCH_DIMS)
     
