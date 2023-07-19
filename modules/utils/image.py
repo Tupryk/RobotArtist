@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def scale_image(image, target_size):
@@ -20,13 +21,10 @@ def scale_image(image, target_size):
 def get_drawing_bitmap(image, show=False):
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    if show: cv2.imshow('Gray 1', gray)
 
     gray = cv2.GaussianBlur(gray, (7, 7), 0)
-    if show: cv2.imshow('gaussian blur 2', gray)
 
     binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
-    if show: cv2.imshow('addaptive threshold 3', binary)
 
     binary = cv2.bitwise_not(binary)
     nlabels, labels, stats, _ = cv2.connectedComponentsWithStats(binary, None, None, None, 8, cv2.CV_32S)
@@ -36,7 +34,10 @@ def get_drawing_bitmap(image, show=False):
         if areas[i] >= 100:   #keep
             result[labels == i + 1] = 255
     image = cv2.bitwise_not(result)
-    if show: cv2.imshow('connectedComponentsWithStats 4', image)
+
+    if show:
+        plt.imshow(result)
+        plt.show()
 
     return image
 
