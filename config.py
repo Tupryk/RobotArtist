@@ -3,6 +3,7 @@ from robotic import ry
 
 def generate_config(CANVAS_CENTER, SCKETCH_DIMS, ON_REAL):
 
+    ry.params_add({'botsim/engine': 'kinematic'})
     ry.params_file('rai.cfg')
 
     C = ry.Config()

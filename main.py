@@ -33,7 +33,7 @@ if __name__ == "__main__":
         sketch_2d = search_faces(C, bot, simple=True, show=True)
         sketch = sketch_to_3d(sketch_2d, CANVAS_CENTER, SCKETCH_DIMS)
     # Load predefined sketch
-    else: sketch = load_sketch("data/compressed_good_drawing.json", CANVAS_CENTER, SCKETCH_DIMS, invert_y=True)
+    else: sketch = load_sketch("data/output.json", CANVAS_CENTER, SCKETCH_DIMS, invert_y=True)
 
     bot.home(C)
     bot.sync(C, .1)
