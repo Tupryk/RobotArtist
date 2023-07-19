@@ -19,7 +19,7 @@ def line_solver(waypoints, ry_config, debug=False):
     komo.addObjective([], ry.FS.accumulatedCollisions, [], ry.OT.eq)
     komo.addObjective([], ry.FS.jointLimits, [], ry.OT.ineq)
 
-    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.eq, [0.5], [1, 0, 0])
+    komo.addObjective([], ry.FS.vectorY, ["l_gripper"], ry.eq, [0.5], [-1, 0, 0])
     komo.addObjective([T], ry.FS.qItself, [], ry.OT.eq, [1e1], [], 1)
 
     for i, point in enumerate(waypoints, start=0):
@@ -48,7 +48,7 @@ def do_sketch(sketch, ry_config, bot):
 
         # Move hand to line starting position
         lift_path = [last_point, line_start - lift_space, line_start]
-        time_to_solve = line_length(lift_path)/(DRAW_SPEED*4)
+        time_to_solve = line_length(lift_path)/(DRAW_SPEED)
         path = line_solver(lift_path[1:], ry_config, debug=False)
 
         bot.move(path, [time_to_solve])
@@ -67,7 +67,7 @@ def do_sketch(sketch, ry_config, bot):
         # Lift hand from whiteboard
         bot.sync(ry_config, 0.)
         lift_path = [line_end, line_end - lift_space]
-        time_to_solve = line_length(lift_path)/(DRAW_SPEED*4)
+        time_to_solve = line_length(lift_path)/(DRAW_SPEED)
         path = line_solver(lift_path[1:], ry_config, debug=False)
 
         bot.move(path, [time_to_solve])

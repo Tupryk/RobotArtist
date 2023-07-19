@@ -22,7 +22,7 @@ def generate_config(CANVAS_CENTER, SCKETCH_DIMS, ON_REAL):
         .setContact(True)
 
     pen_tip = C.addFrame("pen_tip", "l_gripper")
-    pen_tip.setRelativePose("t(.0 .09 .0)")
+    pen_tip.setRelativePose("t(.0 -.09 .0)")
     pen_tip.setShape(ry.ST.sphere, size=[.005])
     pen_tip.setColor([1., .0, 1.])
 

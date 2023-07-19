@@ -8,8 +8,8 @@ from modules.face_capture import search_faces
 from modules.sketcher import do_sketch
 from modules.pen import pickup_pen
 
-SEARCH_FACES = True
-PICKUP_PEN = True
+SEARCH_FACES = False
+PICKUP_PEN = False
 DO_SKETCH = True
 
 CANVAS_CENTER = [-.05, 1, .6]
