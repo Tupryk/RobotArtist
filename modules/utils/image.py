@@ -36,7 +36,7 @@ def get_drawing_bitmap(image, show=False):
     image = cv2.bitwise_not(result)
 
     if show:
-        plt.imshow(result)
+        plt.imshow(image)
         plt.show()
 
     return image
