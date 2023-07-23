@@ -46,33 +46,39 @@ def do_sketch(sketch, ry_config, bot):
         line_start = np.array(line[0])
         line_end = np.array(line[-1])
 
-        # Move hand to line starting position
-        lift_path = [last_point, line_start - lift_space, line_start]
-        time_to_solve = line_length(lift_path)/(DRAW_SPEED)
-        path = line_solver(lift_path[1:], ry_config, debug=False)
+        try:
+            # Move hand to line starting position
+            lift_path = [last_point, line_start - lift_space, line_start]
+            time_to_solve = line_length(lift_path)/(DRAW_SPEED)
+            path = line_solver(lift_path[1:], ry_config, debug=False)
 
-        bot.move(path, [time_to_solve])
-        while bot.getTimeToEnd() > 0:
-            bot.sync(ry_config, .1)
+            bot.move(path, [time_to_solve])
+            while bot.getTimeToEnd() > 0:
+                bot.sync(ry_config, .1)
+        except: print("Place error.")
 
-        # Draw single line
-        bot.sync(ry_config, 0.)
-        time_to_solve = line_length(line)/DRAW_SPEED
-        path = line_solver(line[1:], ry_config, debug=False)
+        try:
+            # Draw single line
+            bot.sync(ry_config, 0.)
+            time_to_solve = line_length(line)/DRAW_SPEED
+            path = line_solver(line[1:], ry_config, debug=False)
 
-        bot.move(path, [time_to_solve])
-        while bot.getTimeToEnd() > 0:
-            bot.sync(ry_config, .1)
+            bot.move(path, [time_to_solve])
+            while bot.getTimeToEnd() > 0:
+                bot.sync(ry_config, .1)
+        except: print("Draw error.")
 
-        # Lift hand from whiteboard
-        bot.sync(ry_config, 0.)
-        lift_path = [line_end, line_end - lift_space]
-        time_to_solve = line_length(lift_path)/(DRAW_SPEED)
-        path = line_solver(lift_path[1:], ry_config, debug=False)
+        try:
+            # Lift hand from whiteboard
+            bot.sync(ry_config, 0.)
+            lift_path = [line_end, line_end - lift_space]
+            time_to_solve = line_length(lift_path)/(DRAW_SPEED)
+            path = line_solver(lift_path[1:], ry_config, debug=False)
 
-        bot.move(path, [time_to_solve])
-        while bot.getTimeToEnd() > 0:
-            bot.sync(ry_config, .1)
+            bot.move(path, [time_to_solve])
+            while bot.getTimeToEnd() > 0:
+                bot.sync(ry_config, .1)
+        except: print("Lift error.")
 
         last_point = line_end - lift_space
 
